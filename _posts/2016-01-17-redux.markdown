@@ -191,7 +191,6 @@ Since we'll be introducing some methods, we also should refactor this into ES6 c
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
 import { object } from 'prop-types';
 import { setSearchTerm } from './actionCreators';
 
@@ -199,12 +198,7 @@ class Landing extends React.Component {
   static contextTypes = {
     history: object
   };
-  props: {
-    searchTerm: string,
-    handleSearchTermChange: Function,
-    history: RouterHistory
-  };
-  goToSearch = (event: SyntheticEvent) => {
+  goToSearch = (event) => {
     event.preventDefault();
     this.props.history.push('/search');
   };
@@ -230,7 +224,7 @@ const mapStateToProps = state => ({
   searchTerm: state.searchTerm
 });
 
-const mapDispatchToProps = (dispatch: Function) => ({
+const mapDispatchToProps = (dispatch) => ({
   handleSearchTermChange(event) {
     dispatch(setSearchTerm(event.target.value));
   }
@@ -262,7 +256,7 @@ Okay, so now I want to show you a neat experimental feature: decorators. This is
 export default Landing;
 ```
 
-Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.) The `// $FlowFixMe` bit is so that Flow will ignore that line: it doesn't handle decorators yet so this suppresses that warning. The reason why the transform is considered "legacy" is because the proposal is a bit in flux, but in nearly any case this code won't have to change.
+Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.)
 
 We're going to revert back to using the `connect(…)(…)` notation for now though. Because the Flow parser doesn't support decorators (and won't until it's more stable) we can't use it since Prettier relies on the Flow parser. It works with the Babylon parser but then we can't use Flow. Make your own tradeoff there. You could put the `// prettier-ignore` comment to make it ignore the line too.
 
@@ -276,10 +270,7 @@ import { connect } from 'react-redux';
 import ShowCard from './ShowCard';
 import Header from './Header';
 
-const Search = (props: {
-  searchTerm: string, // eslint-disable-line react/no-unused-prop-types
-  shows: Array<Show>
-}) => (
+const Search = (props) => (
   <div className="search">
     <Header showSearch />
     <div>
@@ -323,36 +314,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 Since Header does care about modifying searchTerm we bring in that logic here. Otherwise not much changes!
 
-Okay, so now we want to type Redux. This is no trivial feat but I promise that it will save you bugs. And in the process we'll learn more about Flow too. 
-
-Open your types.js file in the flow-typed directory and let's add some new types.
+Go back to reducers.js. We're going to show you a cool way to write Redux: combineReducers.
 
 ```javascript
-declare type ActionType = 'SET_SEARCH_TERM';
-
-declare type ActionT<A: ActionType, P> = {|
-  type: A,
-  payload: P
-|};
-
-export type Action = ActionT<'SET_SEARCH_TERM', string>;
-```
-
-Here we're creating an enumerated typed: ActionType. This type is saying anything that's an ActionType can only be that string. Any other string (or anything else) causes an error. This will catch if you spell the action types wrong, which is nice. We'll add another action type later so you can see how to add more.
-
-Below that, we're creating a generic action. It's saying the `type` (which we represent with A) will always an ActionType. It's then saying that there must be a payload type which is always going to exist. We can then define later what that type is going to be (which is what P represents.) We are not representing the full flux standard action here: it also accounts for metadata and errors, but we're keeping it simple here.
-
-Lastly, with the Action (which is the one we export, the other two are only for use in this file) is creating the actual useable action types. We only have one: SET_SEARCH_TERM. It then defines what those that action's payloads must look like: a string. For every action we create, we'll have to come back here to define their types. This seems burdensome but it makes your Redux ironclad. The ongoing mantainability here makes it worth it, I promise.
-
-Go back to reducers.js. We're going to refactor this a bit to make it play nicer with Flow as well as show you a cool way to write Redux: combineReducers.
-
-```javascript
-// @flow
 
 import { combineReducers } from 'redux';
 import { SET_SEARCH_TERM } from './actions';
 
-const searchTerm = (state = '', action: Action) => {
+const searchTerm = (state = '', action) => {
   if (action.type === SET_SEARCH_TERM) {
     return action.payload;
   }

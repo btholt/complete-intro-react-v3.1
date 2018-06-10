@@ -188,7 +188,6 @@ export default connect(mapStateToProps)(Landing);
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { connect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
 <span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> type { RouterHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
 <span class="hljs-keyword">import</span> { object } <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
 <span class="hljs-keyword">import</span> { setSearchTerm } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actionCreators'</span>;
 
@@ -196,12 +195,7 @@ export default connect(mapStateToProps)(Landing);
   <span class="hljs-keyword">static</span> contextTypes = {
     <span class="hljs-attr">history</span>: object
   };
-  props: {
-    <span class="hljs-attr">searchTerm</span>: string,
-    <span class="hljs-attr">handleSearchTermChange</span>: <span class="hljs-built_in">Function</span>,
-    <span class="hljs-attr">history</span>: RouterHistory
-  };
-  goToSearch = <span class="hljs-function">(<span class="hljs-params">event: SyntheticEvent</span>) =&gt;</span> {
+  goToSearch = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
     event.preventDefault();
     <span class="hljs-keyword">this</span>.props.history.push(<span class="hljs-string">'/search'</span>);
   };
@@ -227,7 +221,7 @@ const mapStateToProps = state =&gt; ({
   searchTerm: state.searchTerm
 });
 
-const mapDispatchToProps = (dispatch: Function) =&gt; ({
+const mapDispatchToProps = (dispatch) =&gt; ({
   handleSearchTermChange(event) {
     dispatch(setSearchTerm(event.target.value));
   }
@@ -251,7 +245,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 <span class="hljs-comment">// change the export</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Landing;
 </code></pre>
-<p>Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.) The <code>// $FlowFixMe</code> bit is so that Flow will ignore that line: it doesn't handle decorators yet so this suppresses that warning. The reason why the transform is considered &quot;legacy&quot; is because the proposal is a bit in flux, but in nearly any case this code won't have to change.</p>
+<p>Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.)</p>
 <p>We're going to revert back to using the <code>connect(…)(…)</code> notation for now though. Because the Flow parser doesn't support decorators (and won't until it's more stable) we can't use it since Prettier relies on the Flow parser. It works with the Babylon parser but then we can't use Flow. Make your own tradeoff there. You could put the <code>// prettier-ignore</code> comment to make it ignore the line too.</p>
 <p>Okay, so we're using a form to take care of when hits enter: this is good for accessibility and a good way to take care of submitting. Once a user hits enter, it calls goToSearch where we imperatively call the router to take us to search. This will preserve our Redux state; however Search.jsx is not yet reading from Redux. Let's go fix that.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
@@ -261,10 +255,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 <span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShowCard'</span>;
 <span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">'./Header'</span>;
 
-<span class="hljs-keyword">const</span> Search = (props: {
-  <span class="hljs-attr">searchTerm</span>: string, <span class="hljs-comment">// eslint-disable-line react/no-unused-prop-types</span>
-  shows: <span class="hljs-built_in">Array</span>&lt;Show&gt;
-}) =&gt; (
+<span class="hljs-keyword">const</span> Search = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> (
   &lt;div className="search"&gt;
     &lt;Header showSearch /&gt;
     &lt;div&gt;
@@ -301,27 +292,12 @@ export default connect(mapStateToProps)(Search);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(mapStateToProps, mapDispatchToProps)(Header);
 </code></pre>
 <p>Since Header does care about modifying searchTerm we bring in that logic here. Otherwise not much changes!</p>
-<p>Okay, so now we want to type Redux. This is no trivial feat but I promise that it will save you bugs. And in the process we'll learn more about Flow too.</p>
-<p>Open your types.js file in the flow-typed directory and let's add some new types.</p>
-<pre><code class="language-javascript">declare type ActionType = <span class="hljs-string">'SET_SEARCH_TERM'</span>;
-
-declare type ActionT&lt;A: ActionType, P&gt; = {|
-  type: A,
-  <span class="hljs-attr">payload</span>: P
-|};
-
-<span class="hljs-keyword">export</span> type Action = ActionT&lt;<span class="hljs-string">'SET_SEARCH_TERM'</span>, string&gt;;
-</code></pre>
-<p>Here we're creating an enumerated typed: ActionType. This type is saying anything that's an ActionType can only be that string. Any other string (or anything else) causes an error. This will catch if you spell the action types wrong, which is nice. We'll add another action type later so you can see how to add more.</p>
-<p>Below that, we're creating a generic action. It's saying the <code>type</code> (which we represent with A) will always an ActionType. It's then saying that there must be a payload type which is always going to exist. We can then define later what that type is going to be (which is what P represents.) We are not representing the full flux standard action here: it also accounts for metadata and errors, but we're keeping it simple here.</p>
-<p>Lastly, with the Action (which is the one we export, the other two are only for use in this file) is creating the actual useable action types. We only have one: SET_SEARCH_TERM. It then defines what those that action's payloads must look like: a string. For every action we create, we'll have to come back here to define their types. This seems burdensome but it makes your Redux ironclad. The ongoing mantainability here makes it worth it, I promise.</p>
-<p>Go back to reducers.js. We're going to refactor this a bit to make it play nicer with Flow as well as show you a cool way to write Redux: combineReducers.</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
+<p>Go back to reducers.js. We're going to show you a cool way to write Redux: combineReducers.</p>
+<pre><code class="language-javascript">
 <span class="hljs-keyword">import</span> { combineReducers } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
 <span class="hljs-keyword">import</span> { SET_SEARCH_TERM } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actions'</span>;
 
-<span class="hljs-keyword">const</span> searchTerm = <span class="hljs-function">(<span class="hljs-params">state = <span class="hljs-string">''</span>, action: Action</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> searchTerm = <span class="hljs-function">(<span class="hljs-params">state = <span class="hljs-string">''</span>, action</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (action.type === SET_SEARCH_TERM) {
     <span class="hljs-keyword">return</span> action.payload;
   }

@@ -22,80 +22,47 @@ That's our app as it stands in terms of dependencies. App imports Search which i
 
 This is accomplished with some black magic from Webpack and Babel. Babel when it transforms your code from JSX to JS and from ES6+ to ES5 will also instrument your modules with the ability to be replaced. We'll then insert a small client into our code that will receive small JSON packages via websockets and insert those into our running code. None of these details are important: mostly it's just for your information. react-hot-loader, Webpack, and Babel largely abstract these away from you.
 
-Let's start with your .babelrc file. Add this as a top level property:
+Let's start with your .babelrc file. Add this as a property in `"env"`:
+
+```bash
+npm install -D react-hot-loader
+```
 
 ```json
-"plugins": [
-  "react-hot-loader/babel"
-],
+"development": {
+  "plugins": ["react-hot-loader/babel"]
+}
 ```
 
 This is what instruments the code with the ability to be replaced. Refactor your webpack.config.js to look like this:
 
 ```javascript
-const path = require('path');
-const webpack = require('webpack');
-
 module.exports = {
-  context: __dirname,
-  entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './js/ClientApp.jsx'
-  ],
-  devtool: 'cheap-eval-source-map',
-  output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
-  },
+  …
   devServer: {
     hot: true,
-    publicPath: '/public/',
+    publicPath: "/public/",
     historyApiFallback: true
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.json']
-  },
-  stats: {
-    colors: true,
-    reasons: true,
-    chunks: false
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin()],
-  module: {
-    rules: [
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.jsx?$/,
-        loader: 'babel-loader'
-      }
-    ]
-  }
+  …
 };
 ```
 
-- We required Webpack. We need to pull some plugins off of it.
-- We added some additional files to be packed into app via the entry property. The order here *is* important.
-- We gave the output a publicPath so it can know where the bundle.js file is since that's where it'll pull new bundles.
-- We told the dev server to run in hot reload mode.
-- We gave Webpack two plugins to work with. These affect the internals of Webpack. The second one is optional but it's helpful because it'll print the name of the files being hot reloaded.
+* We required Webpack. We need to pull some plugins off of it.
+* We added some additional files to be packed into app via the entry property. The order here _is_ important.
+* We gave the output a publicPath so it can know where the bundle.js file is since that's where it'll pull new bundles.
+* We told the dev server to run in hot reload mode.
+* We gave Webpack two plugins to work with. These affect the internals of Webpack. The second one is optional but it's helpful because it'll print the name of the files being hot reloaded.
 
 From here we need to split the App component out of ClientApp. We need to give hot module reload the ability to split the root component away from what actually renders the component to the page. Turns out we would have had to do this anyway for server-side rendering anyway so it's fine for us to tackle this now.
 
 Create a new file called App.jsx and put this in there:
 
 ```javascript
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Landing from './Landing';
-import Search from './Search';
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import { hot } from "react-hot-loader";
+import Landing from "./Landing";
+import Search from "./Search";
 
 const App = () => (
   <BrowserRouter>
@@ -106,26 +73,7 @@ const App = () => (
   </BrowserRouter>
 );
 
-export default App;
-```
-
-Then from here, make your ClientApp.jsx look like this:
-
-```javascript
-import React from 'react';
-import { render } from 'react-dom';
-import App from './App';
-
-const renderApp = () => {
-  render(<App />, document.getElementById('app'));
-};
-renderApp();
-
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    renderApp();
-  });
-}
+export default hot(module)(App);
 ```
 
 The first thing I always here is "Am I shipping that module.hot stuff down in prod!?" Yes, you are, and no, it doesn't matter. It's an if statement that gets runs once. You'll be fine. If you're so worried, use something like [groundskeeper][gk].

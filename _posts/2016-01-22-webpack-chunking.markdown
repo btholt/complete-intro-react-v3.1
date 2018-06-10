@@ -15,8 +15,8 @@ Let's go create a component that will handle our asynchronous routes to contain 
 ```javascript
 // @flow
 
-import React from 'react';
-import Spinner from './Spinner';
+import React from "react";
+import Spinner from "./Spinner";
 
 class AsyncRoute extends React.Component {
   state = {
@@ -29,10 +29,6 @@ class AsyncRoute extends React.Component {
     });
   }
   component = null;
-  props: {
-    props: mixed,
-    loadingPromise: Promise<{ default: Class<React.Component<*, *, *>> }>
-  };
   render() {
     if (this.state.loaded) {
       return <this.component {...this.props.props} />;
@@ -57,17 +53,23 @@ Now we need to enable Babel, Webpack, and Node to all understand the `import(…
   "babel-plugin-transform-class-properties"
 ],
 ```
+
 Go to App.jsx
 
 ```javascript
 // replace Landing Match
-<Route exact path="/" component={props => <AsyncRoute props={props} loadingPromise={import('./Landing')} />} />
+<Route
+  exact
+  path="/"
+  component={props => (
+    <AsyncRoute props={props} loadingPromise={import("./Landing")} />
+  )}
+/>
 ```
 
 So now we're using our AsyncRoute function to make Landing Async. First we import our route. Then we pull in our AsyncRoute and use it inside of Route. This is amazing since Webpack knows to perform a code split here and we get all the rest of that for free.
 
 Let's talk about what sucks about this. Now, server-side rendered or not, we get a loading screen first thing. No matter what. Ideally we get this loading screen _sooner_ but nonetheless that happens. There are ways around this but it involves either making some compromises by not server-side rendering properly and getting a [checksum violation][checksum] or by greatly increasing the complexity of this by introducing the concept of module hydration where on the server you make sure to send down the bundle and the correct chunk at the same time and detect that on the client. For now I'm happy just introducing code-splitting to our app for now.
-
 
 Also, in order for import() (or [require.ensure][ensure], which is the CommonJS version) to be able to code split, the parameter passed to it must be a string of the path. It cannot be a variable. Webpack is doing static analsysis of your code and cannot follow variables.
 
@@ -101,15 +103,6 @@ Nothing too crazy here either. Just extendingo out the same ideas. Now try navig
 
 Our problem now is that we've broken hot module reload. Unfortunately, with Webpack in the state it's a choose-two situation with code-spliting, hot module replacement, and server side rendering. You can set up two different webpack configs since you only need code splitting on the front end and you only need HMR in dev: I leave that to you.
 
-Lastly, let's set up our build for production. Go modify build in package.json's scripts to be:
-
-```json
-"build": "webpack -p",
-"build:dev": "webpack -d",
-```
-
-`-p` optimizes Webpack for production with Uglify and builds React in production mode. `-d` builds in debug mode and includes much more verbose logging. The sizes you see for `-p` are minified and uglified (including tree shaking) but are not gzipped. Usually your server does that automatically.
-
 Go modify your Webpack config's devtool line to be
 
 ```javascript
@@ -119,50 +112,56 @@ devtool: process.env.NODE_ENV === 'development' ? 'cheap-eval-source-map' : fals
 Source maps are huge and this will only ship them in dev. You'll also need to conditionally include the webpack middleware stuff: refactor to look like this:
 
 ```javascript
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
 const config = {
   context: __dirname,
-  entry: ['./js/ClientApp.jsx'],
-  devtool: process.env.NODE_ENV === 'development' ? 'cheap-eval-source-map' : false,
+  entry: ["./src/ClientApp.js"],
+  devtool:
+    process.env.NODE_ENV === "development" ? "cheap-eval-source-map" : false,
   output: {
-    path: path.resolve(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
+    path: path.resolve(__dirname, "public"),
+    filename: "bundle.js",
+    publicPath: "/public/"
   },
   devServer: {
     hot: true,
-    publicPath: '/public/',
+    publicPath: "/public/",
     historyApiFallback: true
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json']
+    extensions: [".js", ".jsx", ".json"]
   },
   stats: {
     colors: true,
     reasons: true,
     chunks: false
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  ],
   module: {
     rules: [
       {
-        enforce: 'pre',
+        enforce: "pre",
         test: /\.jsx?$/,
-        loader: 'eslint-loader',
+        loader: "eslint-loader",
         exclude: /node_modules/
       },
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader'
+        loader: "babel-loader"
       }
     ]
   }
 };
 
-if (process.env.NODE_ENV === 'development') {
-  config.entry.unshift('webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000');
+if (process.env.NODE_ENV === "development") {
+  config.entry.unshift(
+    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000"
+  );
 }
 
 module.exports = config;
@@ -180,10 +179,10 @@ And now we can only run the dev middleware in dev, as well as gzip our output. T
 
 ```javascript
 //include
-const compression = require('compression');
+const compression = require("compression");
 
 server.use(compression());
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   const compiler = webpack(config);
   server.use(
     webpackDevMiddleware(compiler, {

@@ -52,8 +52,8 @@
 <p>Let's go create a component that will handle our asynchronous routes to contain all that craziness. Create a file called AsyncRoute and go there.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> Spinner <span class="hljs-keyword">from</span> <span class="hljs-string">'./Spinner'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> Spinner <span class="hljs-keyword">from</span> <span class="hljs-string">"./Spinner"</span>;
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncRoute</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
@@ -66,10 +66,6 @@
     });
   }
   component = <span class="hljs-literal">null</span>;
-  props: {
-    <span class="hljs-attr">props</span>: mixed,
-    <span class="hljs-attr">loadingPromise</span>: <span class="hljs-built_in">Promise</span>&lt;{ <span class="hljs-attr">default</span>: Class&lt;React.Component&lt;*, *, *&gt;&gt; }&gt;
-  };
   render() {
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.loaded) {
       <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">this.component</span> {<span class="hljs-attr">...this.props.props</span>} /&gt;</span>;
@@ -92,7 +88,13 @@ export default AsyncRoute;
 </code></pre>
 <p>Go to App.jsx</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// replace Landing Match</span>
-&lt;Route exact path=<span class="hljs-string">"/"</span> component={props =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AsyncRoute</span> <span class="hljs-attr">props</span>=<span class="hljs-string">{props}</span> <span class="hljs-attr">loadingPromise</span>=<span class="hljs-string">{import(</span>'<span class="hljs-attr">.</span>/<span class="hljs-attr">Landing</span>')} /&gt;</span>} /&gt;
+&lt;Route
+  exact
+  path=<span class="hljs-string">"/"</span>
+  component={props =&gt; (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AsyncRoute</span> <span class="hljs-attr">props</span>=<span class="hljs-string">{props}</span> <span class="hljs-attr">loadingPromise</span>=<span class="hljs-string">{import(</span>"<span class="hljs-attr">.</span>/<span class="hljs-attr">Landing</span>")} /&gt;</span>
+  )}
+/&gt;
 </span></code></pre>
 <p>So now we're using our AsyncRoute function to make Landing Async. First we import our route. Then we pull in our AsyncRoute and use it inside of Route. This is amazing since Webpack knows to perform a code split here and we get all the rest of that for free.</p>
 <p>Let's talk about what sucks about this. Now, server-side rendered or not, we get a loading screen first thing. No matter what. Ideally we get this loading screen <em>sooner</em> but nonetheless that happens. There are ways around this but it involves either making some compromises by not server-side rendering properly and getting a <a href="https://stackoverflow.com/questions/34311221/what-is-checksum-in-react-and-how-to-use-it">checksum violation</a> or by greatly increasing the complexity of this by introducing the concept of module hydration where on the server you make sure to send down the bundle and the correct chunk at the same time and detect that on the client. For now I'm happy just introducing code-splitting to our app for now.</p>
@@ -122,59 +124,60 @@ export default AsyncRoute;
 </code></pre>
 <p>Nothing too crazy here either. Just extendingo out the same ideas. Now try navigating around your app and watch the network tab. You should different bundles being pulled in. If you look at your terminal output, you'll see we actually haven't optimized too much: our main bundle is nearly a megabyte and the smaller bundles are between three and fifty kilobytes. Like I said, this is wonderful for big apps where you can section off where dependencies. For example the fifty kilobyte bundle is the only one that has axios. The rest of the app doesn't need it. But for our tiny React routes, this isn't super useful. And the ability to codesplit isn't free either: Webpack includes some glue code to make this work. So evaluate this tool carefully!</p>
 <p>Our problem now is that we've broken hot module reload. Unfortunately, with Webpack in the state it's a choose-two situation with code-spliting, hot module replacement, and server side rendering. You can set up two different webpack configs since you only need code splitting on the front end and you only need HMR in dev: I leave that to you.</p>
-<p>Lastly, let's set up our build for production. Go modify build in package.json's scripts to be:</p>
-<pre><code class="language-json">"build": "webpack -p",
-"build:dev": "webpack -d",
-</code></pre>
-<p><code>-p</code> optimizes Webpack for production with Uglify and builds React in production mode. <code>-d</code> builds in debug mode and includes much more verbose logging. The sizes you see for <code>-p</code> are minified and uglified (including tree shaking) but are not gzipped. Usually your server does that automatically.</p>
 <p>Go modify your Webpack config's devtool line to be</p>
 <pre><code class="language-javascript">devtool: process.env.NODE_ENV === <span class="hljs-string">'development'</span> ? <span class="hljs-string">'cheap-eval-source-map'</span> : <span class="hljs-literal">false</span>,
 </code></pre>
 <p>Source maps are huge and this will only ship them in dev. You'll also need to conditionally include the webpack middleware stuff: refactor to look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">"path"</span>);
+<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack"</span>);
 
 <span class="hljs-keyword">const</span> config = {
   <span class="hljs-attr">context</span>: __dirname,
-  <span class="hljs-attr">entry</span>: [<span class="hljs-string">'./js/ClientApp.jsx'</span>],
-  <span class="hljs-attr">devtool</span>: process.env.NODE_ENV === <span class="hljs-string">'development'</span> ? <span class="hljs-string">'cheap-eval-source-map'</span> : <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">entry</span>: [<span class="hljs-string">"./src/ClientApp.js"</span>],
+  <span class="hljs-attr">devtool</span>:
+    process.env.NODE_ENV === <span class="hljs-string">"development"</span> ? <span class="hljs-string">"cheap-eval-source-map"</span> : <span class="hljs-literal">false</span>,
   <span class="hljs-attr">output</span>: {
-    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">'public'</span>),
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">'bundle.js'</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>
+    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">"public"</span>),
+    <span class="hljs-attr">filename</span>: <span class="hljs-string">"bundle.js"</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>
   },
   <span class="hljs-attr">devServer</span>: {
     <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>,
     <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span>
   },
   <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">'.js'</span>, <span class="hljs-string">'.jsx'</span>, <span class="hljs-string">'.json'</span>]
+    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">".js"</span>, <span class="hljs-string">".jsx"</span>, <span class="hljs-string">".json"</span>]
   },
   <span class="hljs-attr">stats</span>: {
     <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">reasons</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">chunks</span>: <span class="hljs-literal">false</span>
   },
-  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(), <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()],
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(),
+    <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()
+  ],
   <span class="hljs-attr">module</span>: {
     <span class="hljs-attr">rules</span>: [
       {
-        <span class="hljs-attr">enforce</span>: <span class="hljs-string">'pre'</span>,
+        <span class="hljs-attr">enforce</span>: <span class="hljs-string">"pre"</span>,
         <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'eslint-loader'</span>,
+        <span class="hljs-attr">loader</span>: <span class="hljs-string">"eslint-loader"</span>,
         <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>
       },
       {
         <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>
+        <span class="hljs-attr">loader</span>: <span class="hljs-string">"babel-loader"</span>
       }
     ]
   }
 };
 
-<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'development'</span>) {
-  config.entry.unshift(<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>);
+<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">"development"</span>) {
+  config.entry.unshift(
+    <span class="hljs-string">"webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000"</span>
+  );
 }
 
 <span class="hljs-built_in">module</span>.exports = config;
@@ -186,10 +189,10 @@ export default AsyncRoute;
 </code></pre>
 <p>And now we can only run the dev middleware in dev, as well as gzip our output. This is often done at the reverse proxy layer (like Nginx) but let's do it here for fun. Refactor your server to be:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">//include</span>
-<span class="hljs-keyword">const</span> compression = <span class="hljs-built_in">require</span>(<span class="hljs-string">'compression'</span>);
+<span class="hljs-keyword">const</span> compression = <span class="hljs-built_in">require</span>(<span class="hljs-string">"compression"</span>);
 
 server.use(compression());
-<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'development'</span>) {
+<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">"development"</span>) {
   <span class="hljs-keyword">const</span> compiler = webpack(config);
   server.use(
     webpackDevMiddleware(compiler, {

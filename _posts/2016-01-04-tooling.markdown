@@ -18,9 +18,9 @@ Either install Prettier globally `yarn global add prettier` (I'm using v0.22 as 
 
 Prettier has a few configurations but it's mostly meant to be a tool everyone uses and doesn't argue/bikeshed about the various code style rules. [Here they are][prettier-options]. I'm going to use a print-width of 120 and single quotes because I like that better but you're welcome to leave it as-is too. Prettier also can understand [flow][flow] if you switch the parser but we're not going to worry about that. TypeScript support is coming.
 
-## npm/Yarn scripts
+## npm scripts
 
-So it can be painful to try to remember the various CLI commands to run on your project, especially with Prettier because it doesn't have a config object yet (they're making one.) npm/Yarn scripts to the rescue! You can put CLI commands into it and then run the name of the tag and it'll run that script. Let's go see how that works. Put the following into your package.json.
+So it can be painful to try to remember the various CLI commands to run on your project, especially with Prettier because it doesn't have a config object yet (they're making one.) npm scripts to the rescue! You can put CLI commands into it and then run the name of the tag and it'll run that script. Let's go see how that works. Put the following into your package.json.
 
 ```json
 "scripts": {
@@ -28,7 +28,7 @@ So it can be painful to try to remember the various CLI commands to run on your 
 },
 ```
 
-Now you can run `yarn format` or `npm run format` and it will run that command. This means we don't have to remember that mess of a command and just have to remember format. Nice, right? We'll be leaning on this a lot during this course.
+Now you can run `npm run format` and it will run that command. This means we don't have to remember that mess of a command and just have to remember format. Nice, right? We'll be leaning on this a lot during this course.
 
 ## Editor Integration
 
@@ -36,8 +36,8 @@ This is all fun, but it's very manual. Let's go make this run automatically on s
 
 ```json
 {
-	"prettier_cli_path": "/Users/brholt/.nvm/versions/node/v6.9.5/bin/prettier",
-	"node_path": "/Users/brholt/.nvm/versions/node/v6.9.5/bin/node",
+	"prettier_cli_path": "/Users/brholt/.nvm/versions/node/v10.2.0/bin/prettier",
+	"node_path": "/Users/brholt/.nvm/versions/node/v10.2.0/bin/node",
 	"auto_format_on_save": true
 	"prettier_options": {
 		"parser": "babylon",
@@ -55,20 +55,11 @@ Create this file called `.eslintrc.json`.
 
 ```json
 {
-  "extends": [
-    "airbnb",
-    "prettier",
-    "prettier/react"
-  ],
-  "plugins": [
-    "prettier"
-  ],
+  "extends": ["eslint:recommended", "prettier", "prettier/react"],
+  "plugins": ["prettier"],
   "parserOptions": {
     "ecmaVersion": 2016,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "env": {
     "es6": true,
@@ -78,17 +69,17 @@ Create this file called `.eslintrc.json`.
 }
 ```
 
-This is a combination of the recommended configs of Airbnb and Prettier. This will lint for both normal JS stuff as well as JSX stuff. Run `eslint script.js` now and you should see we have a few errors. Run it again with the `--fix` flag and see it will fix some of it for us! Go fix the rest of your errors and come back. Let's go add this to our npm scripts. If you haven't checked out [Airbnb's style guide][airbnb] it's worth a read.
+This is a combination of the recommended configs of Airbnb and Prettier. This will lint for both normal JS stuff as well as JSX stuff. Run `eslint script.js` now and you should see we have a few errors. Run it again with the `--fix` flag and see it will fix some of it for us! Go fix the rest of your errors and come back. Let's go add this to our npm scripts.
 
 ```json
-lint": "eslint **/*.{js,jsx} --quiet"
+"lint": "eslint **/*.{js,jsx} --quiet"
 ```
 
 Worth adding three things here:
 
-- With npm scripts, you can pass additional parameters to the command if you want. Just add a `--` and then put whatever else you want to tack on after that. For example, if I wanted to get the debug output from ESLint, I could run `yarn lint -- --debug` which would translate to `eslint **/*.js --debug`.
-- We can use our fix trick this way: `yarn lint -- --fix`.
-- We're going to both JS and JSX.
+* With npm scripts, you can pass additional parameters to the command if you want. Just add a `--` and then put whatever else you want to tack on after that. For example, if I wanted to get the debug output from ESLint, I could run `npm run lint -- --debug` which would translate to `eslint **/*.js --debug`.
+* We can use our fix trick this way: `npm run lint -- --fix`.
+* We're going to both JS and JSX.
 
 You can linting and fixing to your editor too but I'll leave that to you. It can be a bit finnicky to get going. I'll be using [SublimeLinter][sl] and [sublimelinter-contrib-eslint][slce] (you need both.)
 

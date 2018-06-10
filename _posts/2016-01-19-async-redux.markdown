@@ -9,17 +9,19 @@ Okay, so we've decided to augment Redux. How do we do that? Well, luckily, Redux
 So let's unpack the word thunk: it's a weird computer science term that seems more difficult than it actually is. Imagine you need to write a line of code that calculates the conversion from USD to EUR. You could write it:
 
 ```javascript
-const dollars = 10
-const conversionRate = 1.1
-const euros = dollars * conversionRate
+const dollars = 10;
+const conversionRate = 1.1;
+const euros = dollars * conversionRate;
 ```
 
 This code is a bit weak because we've statically defined the conversionRate. It would be better if we didn't have to define this value statically but instead could be determined whenever you accessed conversionRate (since currency exchange rates flucuate constantly.) What if we did:
 
 ```javascript
-const dollars = 10
-const conversionRate = function () { return 1.1 }
-const euros = dollars * conversionRate()
+const dollars = 10;
+const conversionRate = function() {
+  return 1.1;
+};
+const euros = dollars * conversionRate();
 ```
 
 Now we've wrapped conversionRate in a function. Even though the answer is unchanged, conversion is now a black box that we can swap out that 1.1 whenever. The value of the return of conversionRate isn't set until that function is actually called. conversionRate is now a **thunk**. It's a function wrapping a value.
@@ -27,16 +29,18 @@ Now we've wrapped conversionRate in a function. Even though the answer is unchan
 The above is a silly example, but it with Redux this becomes a powerfuly feature. Instead of determining what action object you're going to dispatch at write time, you can determine what you're going dispatch conditionally or asynchronously. redux-thunk even let's you dispatch multiple actions! This can be useful if you have one action that leads to multiple, cascading changes. Super useful. So let's go change the Details page to use redux-thunk instead of local state. First, let's go include the redux-thunk middleware. Go store.js:
 
 ```javascript
-// @flow
-import { createStore, compose, applyMiddleware } from 'redux'; // add applyMiddleware
-import thunk from 'redux-thunk'; // import
-import rootReducer from './reducers';
+import { createStore, compose, applyMiddleware } from "redux"; // add applyMiddleware
+import thunk from "redux-thunk"; // import
+import rootReducer from "./reducers";
 
 const store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunk), // middleware
-    typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : f => f
+    typeof window === "object" &&
+    typeof window.devToolsExtension !== "undefined"
+      ? window.devToolsExtension()
+      : f => f
   )
 );
 
@@ -46,17 +50,7 @@ export default store;
 This is how you add more middlewares! Okay, so let's go add the _sync_ action to make it so we can store omdbData in our data store. This is a good distinction to make: you still will only modify your state via reducers, and reducers are only kicked off via dispatching action _synchronously_ to your root reducer. Always. So what we're doing is kicking off an async action which when it finishes will dispatch a sync action to the root reducer. We're just adding another step. So let's do our sync action. Go to actions.js:
 
 ```javascript
-export const ADD_API_DATA = 'ADD_API_DATA';
-```
-
-Go to types.js
-
-```javascript
-// new action type
-declare type ActionType = 'SET_SEARCH_TERM' | 'ADD_API_DATA';
-
-// new action
-export type Action = ActionT<'SET_SEARCH_TERM', string> | ActionT<'ADD_API_DATA', Show>;
+export const ADD_API_DATA = "ADD_API_DATA";
 ```
 
 We're expanding how many different types of actions we can have.
@@ -65,17 +59,19 @@ Now go to reducers.js:
 
 ```javascript
 // at top
-import { SET_SEARCH_TERM, ADD_API_DATA } from './actions';
+import { SET_SEARCH_TERM, ADD_API_DATA } from "./actions";
 
 const DEFAULT_STATE = {
-  searchTerm: '',
+  searchTerm: "",
   apiData: {}
 };
 
 // add new reducer
 const apiData = (state = {}, action: Action) => {
   if (action.type === ADD_API_DATA) {
-    return Object.assign({}, state, { [action.payload.imdbID]: action.payload });
+    return Object.assign({}, state, {
+      [action.payload.imdbID]: action.payload
+    });
   }
   return state;
 };
@@ -93,26 +89,26 @@ Go to actionCreators.js:
 ```javascript
 // @flow
 
-import axios from 'axios';
-import { SET_SEARCH_TERM, ADD_API_DATA } from './actions';
+import axios from "axios";
+import { SET_SEARCH_TERM, ADD_API_DATA } from "./actions";
 
-export function setSearchTerm(searchTerm: string) {
+export function setSearchTerm(searchTerm) {
   return { type: SET_SEARCH_TERM, payload: searchTerm };
 }
 
-export function addAPIData(apiData: Show) {
+export function addAPIData(apiData) {
   return { type: ADD_API_DATA, payload: apiData };
 }
 
-export function getAPIDetails(imdbID: string) {
-  return (dispatch: Function) => {
+export function getAPIDetails(imdbID) {
+  return dispatch => {
     axios
       .get(`http://localhost:3000/${imdbID}`)
       .then(response => {
         dispatch(addAPIData(response.data));
       })
       .catch(error => {
-        console.error('axios error', error); // eslint-disable-line no-console
+        console.error("axios error", error); // eslint-disable-line no-console
       });
   };
 }
@@ -130,13 +126,6 @@ import { connect } from 'react-redux';
 import { getOMDBDetails } from './actionCreators';
 
 // delete axios import
-
-// more propTypes (outside of show)
-props: {
-  rating: string,
-  getAPIData: Function,
-  show: Show
-};
 
 // replace componentDidMount
 componentDidMount() {
@@ -157,7 +146,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Function, ownProps) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   getAPIData() {
     dispatch(getAPIDetails(ownProps.show.imdbID));
   }
@@ -172,4 +161,4 @@ In the mapStateToProps, we're including the ownProps parameter. This is the prop
 
 That's it! That's async Redux, or at least the simplest form of it. Like I alluded to earlier, there are several other ways of accomplishing async Redux. The other popular options include redux-promise where you dispatch promises, redux-observable where you dispatch observables, and redux-sagas where dispatch generators.
 
-[combineReducers]: http://redux.js.org/docs/api/combineReducers.html
+[combinereducers]: http://redux.js.org/docs/api/combineReducers.html

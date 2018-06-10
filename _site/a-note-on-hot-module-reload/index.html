@@ -57,57 +57,21 @@
 </code></pre>
 <p>That's our app as it stands in terms of dependencies. App imports Search which imports ShowCard. If Landing changes, we can leave App, Search, and ShowCard running as is and just graft on a new Landing. If Search changes, we have to graft on a whole new Search which includes new ShowCards.</p>
 <p>This is accomplished with some black magic from Webpack and Babel. Babel when it transforms your code from JSX to JS and from ES6+ to ES5 will also instrument your modules with the ability to be replaced. We'll then insert a small client into our code that will receive small JSON packages via websockets and insert those into our running code. None of these details are important: mostly it's just for your information. react-hot-loader, Webpack, and Babel largely abstract these away from you.</p>
-<p>Let's start with your .babelrc file. Add this as a top level property:</p>
-<pre><code class="language-json">"plugins": [
-  "react-hot-loader/babel"
-],
+<p>Let's start with your .babelrc file. Add this as a property in <code>&quot;env&quot;</code>:</p>
+<pre><code class="language-bash">npm install -D react-hot-loader
+</code></pre>
+<pre><code class="language-json">"development": {
+  "plugins": ["react-hot-loader/babel"]
+}
 </code></pre>
 <p>This is what instruments the code with the ability to be replaced. Refactor your webpack.config.js to look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
-
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">context</span>: __dirname,
-  <span class="hljs-attr">entry</span>: [
-    <span class="hljs-string">'react-hot-loader/patch'</span>,
-    <span class="hljs-string">'webpack-dev-server/client?http://localhost:8080'</span>,
-    <span class="hljs-string">'webpack/hot/only-dev-server'</span>,
-    <span class="hljs-string">'./js/ClientApp.jsx'</span>
-  ],
-  <span class="hljs-attr">devtool</span>: <span class="hljs-string">'cheap-eval-source-map'</span>,
-  <span class="hljs-attr">output</span>: {
-    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">'public'</span>),
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">'bundle.js'</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>
-  },
-  <span class="hljs-attr">devServer</span>: {
+<pre><code class="language-javascript"><span class="hljs-built_in">module</span>.exports = {
+  …
+  devServer: {
     <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>,
     <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span>
-  },
-  <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">'.js'</span>, <span class="hljs-string">'.jsx'</span>, <span class="hljs-string">'.json'</span>]
-  },
-  <span class="hljs-attr">stats</span>: {
-    <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">reasons</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">chunks</span>: <span class="hljs-literal">false</span>
-  },
-  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(), <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()],
-  <span class="hljs-attr">module</span>: {
-    <span class="hljs-attr">rules</span>: [
-      {
-        <span class="hljs-attr">enforce</span>: <span class="hljs-string">'pre'</span>,
-        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'eslint-loader'</span>,
-        <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>
-      },
-      {
-        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>
-      }
-    ]
-  }
+  …
 };
 </code></pre>
 <ul>
@@ -119,10 +83,11 @@
 </ul>
 <p>From here we need to split the App component out of ClientApp. We need to give hot module reload the ability to split the root component away from what actually renders the component to the page. Turns out we would have had to do this anyway for server-side rendering anyway so it's fine for us to tackle this now.</p>
 <p>Create a new file called App.jsx and put this in there:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { BrowserRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">'./Landing'</span>;
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'./Search'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { BrowserRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> { hot } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-hot-loader"</span>;
+<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">"./Landing"</span>;
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"./Search"</span>;
 
 <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   &lt;BrowserRouter&gt;
@@ -133,24 +98,8 @@
   &lt;/BrowserRouter&gt;
 );
 
-export default App;
+export default hot(module)(App);
 </code></pre>
-<p>Then from here, make your ClientApp.jsx look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;
-
-<span class="hljs-keyword">const</span> renderApp = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('app'));
-};
-renderApp();
-
-if (module.hot) {
-  module.hot.accept('./App', () =&gt; {
-    renderApp();
-  });
-}
-</span></code></pre>
 <p>The first thing I always here is &quot;Am I shipping that module.hot stuff down in prod!?&quot; Yes, you are, and no, it doesn't matter. It's an if statement that gets runs once. You'll be fine. If you're so worried, use something like <a href="https://github.com/Couto/groundskeeper">groundskeeper</a>.</p>
 <p>Okay, so we made renderApp a function so that we can render the App each time App itself changes. The rest of the modules will take care of themselves: this is all you need to hook up to get hot module reload to work! Also, when you build for production, all of the hot module reload code and transformations will be stripped out, meaning you're not making your package any larger (other than the if statement in ClientApp). Go give it a shot! Open your console (so you can see the debug statements) and go change something in your app. You should see the UI change without a full page reload. Pretty cool!</p>
 

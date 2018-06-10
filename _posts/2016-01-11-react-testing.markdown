@@ -8,12 +8,16 @@ Now that we have something worth testing, let's test it. We're going to be using
 
 In Search.spec.js, put:
 
-```javascript
-import React from 'react';
-import renderer from 'react-test-renderer';
-import Search from '../Search';
+```bash
+npm install -D jest react-test-renderer
+```
 
-test('Search renders correctly', () => {
+```javascript
+import React from "react";
+import renderer from "react-test-renderer";
+import Search from "../Search";
+
+test("Search renders correctly", () => {
   const component = renderer.create(<Search />);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -24,28 +28,30 @@ Your linter is probably yelling at you by now. Add `"jest": true,` to the env co
 
 This is a snapshot test and it's a super cool new feature of Jest. Jest is going to render out the component you tell it to and dump the state of that to a file. It's basically a free unit test that the computer generates for you. If the markup changes in the future unexpectedly, your unit test will fail and you'll see why it failed.
 
- So then you may ask, "What happens if I update the component on purpose?" Easy! You run the test again with the -u flag and it will write out new snapshots. Awesome! Also note you're supposed to commit snapshots to git.
+So then you may ask, "What happens if I update the component on purpose?" Easy! You run the test again with the -u flag and it will write out new snapshots. Awesome! Also note you're supposed to commit snapshots to git.
 
- Okay, so go the CLI and run `yarn test` You're going to get some error about import being a bad token; this is true since as of Node.js 7, V8 (the JS engine that power Node.js) still doesn't understand ES6 modules, but we still want to use them in dev so we need to do some special Babel transformations just for testing. Go to your .babelrc file and put this:
+Okay, so go the CLI and run `yarn test` You're going to get some error about import being a bad token; this is true since as of Node.js 7, V8 (the JS engine that power Node.js) still doesn't understand ES6 modules, but we still want to use them in dev so we need to do some special Babel transformations just for testing. Go to your .babelrc file and put this:
 
 ```json
 {
   "presets": [
     "react",
-    ["env", {
-      "targets": {
-        "browsers": "last 2 versions"
-      },
-      "loose": true,
-      "modules": false
-    }]
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": "last 2 versions"
+        },
+        "loose": true,
+        "modules": false
+      }
+    ]
   ],
   "env": {
     "test": {
       "plugins": ["transform-es2015-modules-commonjs"]
     }
   }
-}
 }
 ```
 
@@ -57,12 +63,16 @@ Okay, so now we have a few problems with this test. First, if we modify ShowCard
 
 So modifiy your test to read:
 
-```javascript
-import React from 'react';
-import { shallow } from 'enzyme';
-import Search from '../Search';
+```bash
+npm install -D enzyme jest-serializer-enzyme enzyme-adapter-react-16 enzyme-to-json
+```
 
-test('Search renders correctly', () => {
+```javascript
+import React from "react";
+import { shallow } from "enzyme";
+import Search from "../Search";
+
+test("Search renders correctly", () => {
   const component = shallow(<Search />);
   expect(component).toMatchSnapshot();
 });
@@ -74,17 +84,31 @@ This still won't quite work the way we want: Jest doesn't know how to correctly 
 "jest": {
   "snapshotSerializers": ["jest-serializer-enzyme"]
 },
+"setupFiles": [
+  "./src/jestSetup.js"
+]
+```
+
+Make a file called **tests**/jestSetup.js then put in there:
+
+```javascript
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+export default function jestSetup() {
+  configure({ adapter: new Adapter() });
+}
 ```
 
 Run `yarn test` and you can see the difference. Instead of rendering out all the individual shows, we're rendering stubs of ShowCard with the props going into each of them. This ends up being preferable since if ShowCard breaks, it won't break _this_ test. Run `yarn test:update`. You should see it updated your snapshot and now you're good to keep going. Let's test that if we search on the Search component, it displays the correct amount of shows.
 
 ```javascript
 // add two imports
-import ShowCard from '../ShowCard';
-import preload from '../../data.json';
+import ShowCard from "../ShowCard";
+import preload from "../../data.json";
 
 // add new test at the bottom
-test('Search should render correct amount of shows', () => {
+test("Search should render correct amount of shows", () => {
   const component = shallow(<Search />);
   expect(preload.shows.length).toEqual(component.find(ShowCard).length);
 });
@@ -94,11 +118,15 @@ Enzyme gives us lots of useful features. In this case, we can use it to do jQuer
 
 ```javascript
 // underneath the last test
-test('Search should render correct amount of shows based on search', () => {
-  const searchWord = 'house';
+test("Search should render correct amount of shows based on search", () => {
+  const searchWord = "house";
   const component = shallow(<Search />);
-  component.find('input').simulate('change',{target:{value: searchWord}});
-  const showCount = preload.shows.filter((show) => `${show.title.toUpperCase()} ${show.description.toUpperCase()}`.includes(searchWord.toUpperCase())).length;
+  component.find("input").simulate("change", { target: { value: searchWord } });
+  const showCount = preload.shows.filter(show =>
+    `${show.title.toUpperCase()} ${show.description.toUpperCase()}`.includes(
+      searchWord.toUpperCase()
+    )
+  ).length;
   expect(showCount).toEqual(component.find(ShowCard).length);
 });
 ```

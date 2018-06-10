@@ -43,8 +43,8 @@
   </header>
   <section class="post-excerpt">
     <p>Welcome to <em>A Complete Intro to React</em>. The goal of this workshop is to get you full up to speed on modern development and give you an idea what it is like to develop an app in the React ecosystem.</p>
-<h1>Make sure sure you are on the right version of this workshop, v3. If you are unsure as to which version you need, <a href="/page/landing/">go here</a>.</h1>
-<h2>The creation of this course is sponsored by <a href="https://frontendmasters.com/">Frontend Masters</a>. There are videos that go along with it and I encourage you to check them out.</h2>
+<h2>This version does not match up with the Frontend Master videos. If you want that, please to go the <a href="https://github.com/btholt/complete-intro-to-react">v3 version</a>.</h2>
+<h2>The creation of this course is sponsored by <a href="https://frontendmasters.com/">Frontend Masters</a>.</h2>
 <p>When talking about React, you cannot simply <em>just</em> use React. It is an incomplete picture; it is a cog in the machine. React does well to introduce some useful primitives into your toolbox and allows you to build your app without introducing too many opinions. As such, we need to learn some other tools to round the whole story of our app. However, keep in mind that these are modules we are choosing to plug together; you are free to go home and swap in your own parts to suit your own needs. While React fits many/most needs, this complete stack won't; it has opinions and you need to make sure each piece contributes to your story and try not to shoehorn any piece in that you don't need.</p>
 <p>In addition to React, we are going to be using Node.js, Express, Redux, Webpack, Jest, Enzyme, Yarn, Prettier, ESLint, and React-Router. Don't worry if you're aren't familiar with any of these: that's the point of this workshop. Since this workshop is about React, we will not be deep diving into Node.js or database schema. We will discuss these satellite concepts just as they pertain to React.</p>
 <p>Questions? Feel free to <a href="https://twitter.com/holtbt">tweet at me</a>. Corrections or concerns about this page? Please file an issue or make a pull request on <a href="https://github.com/btholt/complete-intro-to-react">the repo</a>.</p>
@@ -67,23 +67,15 @@
     <p>In order to be able to complete this entire workshop, we need to go ahead and get some tools downloaded.</p>
 <h2>Clone the git repo</h2>
 <p><a href="https://github.com/btholt/complete-intro-to-react/tree/start">Click here</a> to go clone the <code>start</code></p>
-<h2>node.js 6+</h2>
-<p>You <em>probably</em> can complete this with something less than node 4 but I'm using v6.9.5. Being a Node.js LTS release, it's a safe bet to be using. If you need to use a different version of Node for work, I strongly recommend using <a href="https://github.com/creationix/nvm">nvm</a>. I recommend getting the binary straight off the <a href="https://nodejs.org/en/">Node website</a> and <em>not</em> using homebrew for installation.</p>
-<h2>Yarn</h2>
-<p>We're going to use <a href="https://yarnpkg.com/">Yarn</a> for this workshop. In practice this will be a little differences to you, but what's happening under the hood will be good for your app. Yarn will essentially replace your usage of the npm CLI client in your app. Instead of <code>npm install --save react</code> you'll run <code>yarn add react</code>. This installs the same package from the same npm registry (it runs through their own proxy but as of writing the <code>registry.yarnpkg.com</code> address is just a dumb passthrough.)</p>
-<p>If you haven't installed yarn, install it via <code>npm install --global yarn</code>. You can also install it via homebrew: <code>brew update &amp;&amp; brew install yarn</code>.</p>
-<p>Yarn does a couple of things different from npm. One, it's 100% deterministic. Deterministic is just a fancy way of saying that if you run yarn from any state, any time, 1000x times, it will still work the same way the 1001st time. npm's installs are nondeterministic. If you run it from various states, it will install different ways.</p>
-<p>Yarn does some better caching too. In fact, it does it so well you'll see a <em>significant</em> reduction in your install times. Big code bases have seen a 10x reduction in install times.</p>
-<p>Yarn also locks down your dependencies by default. It's possible to do this with an npm shrinkwrap command but if you've ever had to maintain one of those, it can be messy. This locking down of dependencies means you don't have to rely on npm authors doing <a href="http://semver.org/">semver</a> correctly, a notoriously controversial subject</p>
-<h2>yarn installs</h2>
-<p>Run <code>yarn</code> from the directory where you downloaded the repo. If you have node and npm installed, you should see a list of dependencies being installed.</p>
-<h2>yarn global installs</h2>
+<h2>node.js 8+</h2>
+<p>You <em>probably</em> can complete this with something less than node 6 but I'm using v10.2.0. If you need to use a different version of Node for work, I strongly recommend using <a href="https://github.com/creationix/nvm">nvm</a>. I recommend getting the binary straight off the <a href="https://nodejs.org/en/">Node website</a> and <em>not</em> using homebrew for installation.</p>
+<h2>npm global installs</h2>
 <p>Run the following global npm installs</p>
-<pre><code class="language-bash">yarn global add jest@v19.0.2
-yarn global add nodemon
-yarn global add webpack@v2.2.1
-yarn global add prettier@v0.22.0
-yarn global add eslint@v3.18.0
+<pre><code class="language-bash">npm install --global jest@v23.1.0
+npm install --global nodemon
+npm install --global webpack@v4.10.2
+npm install --global prettier@v1.13.4
+npm install --global eslint@v4.19.1
 </code></pre>
 <p>I have you install specific versions so that if the libraries change at all this workshop will all still apply. It doesn't really matter version of nodemon you use. You don't necessarily need these exact versions but you may run into issues if you use different major or minor releases as things make break between versions.</p>
 
@@ -116,8 +108,8 @@ yarn global add eslint@v3.18.0
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/react/dist/react.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/react-dom/dist/react-dom.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react@16.4.0/umd/react.development.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react-dom@16.4.0/umd/react-dom.development.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
         <span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
           <span class="hljs-keyword">return</span> React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
@@ -140,21 +132,21 @@ yarn global add eslint@v3.18.0
 <p>Before we start here, let's delete that bottom script tag in index.html and add <code>&lt;&amp;NegativeMediumSpace;script src=&quot;js/ClientApp.js&quot;&gt;&lt;/script&gt;</code> so we can get some good code separation going. Once done with that, create the js directory and add the ClientApp.js file. In this file, let's put</p>
 <pre><code class="language-javascript"><span class="hljs-comment">/* global React ReactDOM */</span>
 
-<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      React.createElement(<span class="hljs-string">'h1'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'Check out this component!'</span>)
-    )
+<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> React.createElement(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    React.createElement(<span class="hljs-string">"h1"</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">"Check out this component!"</span>)
   );
 };
 
-<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>),
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>),
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>)
-    )
+<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> React.createElement(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>),
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>),
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>)
   );
 };
 
@@ -174,12 +166,12 @@ ReactDOM.render(
 <span class="hljs-keyword">var</span> ce = React.createElement;
 
 <span class="hljs-comment">//replace MyFirstComponent's body</span>
-<span class="hljs-keyword">return</span> (
-  ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-    ce(MyTitleFact, <span class="hljs-literal">null</span>),
-    ce(MyTitleFact, <span class="hljs-literal">null</span>),
-    ce(MyTitleFact, <span class="hljs-literal">null</span>)
-  )
+<span class="hljs-keyword">return</span> ce(
+  <span class="hljs-string">"div"</span>,
+  <span class="hljs-literal">null</span>,
+  ce(MyTitleFact, <span class="hljs-literal">null</span>),
+  ce(MyTitleFact, <span class="hljs-literal">null</span>),
+  ce(MyTitleFact, <span class="hljs-literal">null</span>)
 );
 </code></pre>
 <p>This just helps us from having to write <code>React.createElement</code> so many times. There are DOM helpers and an additional package you can bring in that creates helper functions but in all honesty we're not going to use this way of creating React components once we get to using JSX.</p>
@@ -190,38 +182,30 @@ ReactDOM.render(
 
 <span class="hljs-keyword">var</span> ce = React.createElement;
 
-<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      ce(<span class="hljs-string">'h1'</span>, <span class="hljs-literal">null</span>, props.title)
-    )
+<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">return</span> ce(<span class="hljs-string">"div"</span>, <span class="hljs-literal">null</span>, ce(<span class="hljs-string">"h1"</span>, <span class="hljs-literal">null</span>, props.title));
+};
+
+<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> ce(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"House of Cards"</span> }),
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"Orange is the New Black"</span> }),
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"Stranger Things"</span> })
   );
 };
 
-<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'House of Cards'</span>}),
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'Orange is the New Black'</span>}),
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'Stranger Things'</span>})
-    )
-  );
-};
-
-ReactDOM.render(
-  ce(MyFirstComponent),
-  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>)
-);
-
+ReactDOM.render(ce(MyFirstComponent), <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>));
 </code></pre>
 <p>Now we can change the contents of the title. But since we can pass in lots of props, we can widely differing elements of the same class based on what props are passed into the element. Let's take it a step further (and show you how to do inline styles and attributes with React.)</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// change MyTitle's inside h1</span>
-ce(<span class="hljs-string">'h1'</span>, {<span class="hljs-attr">style</span>: {<span class="hljs-attr">color</span>: props.color}}, props.title)
+ce(<span class="hljs-string">"h1"</span>, { <span class="hljs-attr">style</span>: { <span class="hljs-attr">color</span>: props.color } }, props.title);
 
 <span class="hljs-comment">// change MyFirstComponent inside div</span>
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'rebeccapurple'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'House of Cards'</span>}),
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'peru'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Orange is the New Black'</span>}),
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'burlywood'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Stranger Things'</span>})
+ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"rebeccapurple"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"House of Cards"</span> }),
+  ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"peru"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"Orange is the New Black"</span> }),
+  ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"burlywood"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"Stranger Things"</span> });
 </code></pre>
 <p>Let's stop there and switch our attention a bit to tooling. So far we've been writing React with no compile step which is pretty cool and not something enough do in the course of React. Certain things will just make sense because you know what it complies to. In any case, onward!</p>
 
@@ -248,18 +232,18 @@ ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'bu
 <p>Let's go integrate this into our project. It's pretty easy (lol.)</p>
 <p>Either install Prettier globally <code>yarn global add prettier</code> (I'm using v0.22 as of writing) or replace when I run <code>prettier</code> with (from the root of your project) <code>./node_modules/.bin/prettier</code>. From there, run <code>prettier script.js</code>. This will output the formatted version of your file. If you want to actually write the file, run <code>prettier --write script.js</code>. Go check script.js and see it has been reformatted a bit. I will say for non-JSX React, prettier makes your code less readable. Luckily Prettier supports JSX! We'll get to that shortly.</p>
 <p>Prettier has a few configurations but it's mostly meant to be a tool everyone uses and doesn't argue/bikeshed about the various code style rules. <a href="https://github.com/prettier/prettier#api">Here they are</a>. I'm going to use a print-width of 120 and single quotes because I like that better but you're welcome to leave it as-is too. Prettier also can understand <a href="https://flow.org/">flow</a> if you switch the parser but we're not going to worry about that. TypeScript support is coming.</p>
-<h2>npm/Yarn scripts</h2>
-<p>So it can be painful to try to remember the various CLI commands to run on your project, especially with Prettier because it doesn't have a config object yet (they're making one.) npm/Yarn scripts to the rescue! You can put CLI commands into it and then run the name of the tag and it'll run that script. Let's go see how that works. Put the following into your package.json.</p>
+<h2>npm scripts</h2>
+<p>So it can be painful to try to remember the various CLI commands to run on your project, especially with Prettier because it doesn't have a config object yet (they're making one.) npm scripts to the rescue! You can put CLI commands into it and then run the name of the tag and it'll run that script. Let's go see how that works. Put the following into your package.json.</p>
 <pre><code class="language-json">"scripts": {
 	"format": "prettier --list-different --single-quote --print-width=120 \"js/**/*.{js,jsx}\"",
 },
 </code></pre>
-<p>Now you can run <code>yarn format</code> or <code>npm run format</code> and it will run that command. This means we don't have to remember that mess of a command and just have to remember format. Nice, right? We'll be leaning on this a lot during this course.</p>
+<p>Now you can run <code>npm run format</code> and it will run that command. This means we don't have to remember that mess of a command and just have to remember format. Nice, right? We'll be leaning on this a lot during this course.</p>
 <h2>Editor Integration</h2>
 <p>This is all fun, but it's very manual. Let's go make this run automatically on save. This makes the whole process super seamless. For your editor's instructions, <a href="https://github.com/prettier/prettier#editor-integration">go here</a>. Once you've enabled it and put it run on autosave then we're good to go! Here's the config I used for Sublime:</p>
 <pre><code class="language-json">{
-	<span class="hljs-attr">"prettier_cli_path"</span>: <span class="hljs-string">"/Users/brholt/.nvm/versions/node/v6.9.5/bin/prettier"</span>,
-	<span class="hljs-attr">"node_path"</span>: <span class="hljs-string">"/Users/brholt/.nvm/versions/node/v6.9.5/bin/node"</span>,
+	<span class="hljs-attr">"prettier_cli_path"</span>: <span class="hljs-string">"/Users/brholt/.nvm/versions/node/v10.2.0/bin/prettier"</span>,
+	<span class="hljs-attr">"node_path"</span>: <span class="hljs-string">"/Users/brholt/.nvm/versions/node/v10.2.0/bin/node"</span>,
 	<span class="hljs-attr">"auto_format_on_save"</span>: <span class="hljs-literal">true</span>
 	<span class="hljs-string">"prettier_options"</span>: {
 		<span class="hljs-attr">"parser"</span>: <span class="hljs-string">"babylon"</span>,
@@ -272,20 +256,11 @@ ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'bu
 <p>On top of Prettier which takes of all the formatting, you may want to enforce some code styles which pertain more to usage: for example you may want to force people never use <code>with</code> which is valid JS but illadvised to use. ESLint comes into play here. It will lint for this problems. There are dozens of present configs for ESLint and you're welcome to use any one of them. The Airbnb config is very popular, as is the standard config (which I teach in previous versions of this class.) We're going to use the Airbnb one since it's likely the most popular one. Let's create an <code>.eslintrc.json</code> file to start linting our project.</p>
 <p>Create this file called <code>.eslintrc.json</code>.</p>
 <pre><code class="language-json">{
-  <span class="hljs-attr">"extends"</span>: [
-    <span class="hljs-string">"airbnb"</span>,
-    <span class="hljs-string">"prettier"</span>,
-    <span class="hljs-string">"prettier/react"</span>
-  ],
-  <span class="hljs-attr">"plugins"</span>: [
-    <span class="hljs-string">"prettier"</span>
-  ],
+  <span class="hljs-attr">"extends"</span>: [<span class="hljs-string">"eslint:recommended"</span>, <span class="hljs-string">"prettier"</span>, <span class="hljs-string">"prettier/react"</span>],
+  <span class="hljs-attr">"plugins"</span>: [<span class="hljs-string">"prettier"</span>],
   <span class="hljs-attr">"parserOptions"</span>: {
     <span class="hljs-attr">"ecmaVersion"</span>: <span class="hljs-number">2016</span>,
-    <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">"module"</span>,
-    <span class="hljs-attr">"ecmaFeatures"</span>: {
-      <span class="hljs-attr">"jsx"</span>: <span class="hljs-literal">true</span>
-    }
+    <span class="hljs-attr">"sourceType"</span>: <span class="hljs-string">"module"</span>
   },
   <span class="hljs-attr">"env"</span>: {
     <span class="hljs-attr">"es6"</span>: <span class="hljs-literal">true</span>,
@@ -294,13 +269,13 @@ ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'bu
   }
 }
 </code></pre>
-<p>This is a combination of the recommended configs of Airbnb and Prettier. This will lint for both normal JS stuff as well as JSX stuff. Run <code>eslint script.js</code> now and you should see we have a few errors. Run it again with the <code>--fix</code> flag and see it will fix some of it for us! Go fix the rest of your errors and come back. Let's go add this to our npm scripts. If you haven't checked out <a href="https://github.com/airbnb/javascript">Airbnb's style guide</a> it's worth a read.</p>
-<pre><code class="language-json">lint": "eslint **/*.{js,jsx} --quiet"
+<p>This is a combination of the recommended configs of Airbnb and Prettier. This will lint for both normal JS stuff as well as JSX stuff. Run <code>eslint script.js</code> now and you should see we have a few errors. Run it again with the <code>--fix</code> flag and see it will fix some of it for us! Go fix the rest of your errors and come back. Let's go add this to our npm scripts.</p>
+<pre><code class="language-json">"lint": "eslint **/*.{js,jsx} --quiet"
 </code></pre>
 <p>Worth adding three things here:</p>
 <ul>
-<li>With npm scripts, you can pass additional parameters to the command if you want. Just add a <code>--</code> and then put whatever else you want to tack on after that. For example, if I wanted to get the debug output from ESLint, I could run <code>yarn lint -- --debug</code> which would translate to <code>eslint **/*.js --debug</code>.</li>
-<li>We can use our fix trick this way: <code>yarn lint -- --fix</code>.</li>
+<li>With npm scripts, you can pass additional parameters to the command if you want. Just add a <code>--</code> and then put whatever else you want to tack on after that. For example, if I wanted to get the debug output from ESLint, I could run <code>npm run lint -- --debug</code> which would translate to <code>eslint **/*.js --debug</code>.</li>
+<li>We can use our fix trick this way: <code>npm run lint -- --fix</code>.</li>
 <li>We're going to both JS and JSX.</li>
 </ul>
 <p>You can linting and fixing to your editor too but I'll leave that to you. It can be a bit finnicky to get going. I'll be using <a href="http://sublimelinter.readthedocs.io/en/latest/">SublimeLinter</a> and <a href="https://github.com/roadhump/SublimeLinter-eslint">sublimelinter-contrib-eslint</a> (you need both.)</p>
@@ -328,15 +303,15 @@ ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'bu
 <p>You should have Webpack 2.3+ installed. Go to the directory of the project in the terminal . After that, run <code>webpack js/ClientApp.js public/bundle.js</code>. In your index.html, change the line of <code>&lt;&amp;NegativeMediumSpace;script src=&quot;js/ClientApp.js&quot;&gt;&lt;/script&gt;</code> to <code>&lt;&amp;NegativeMediumSpace;script src=&quot;/public/bundle.js&quot;&gt;&lt;/script&gt;</code>.</p>
 <p>Try your browser again. bundle.js has all the stuff for both files now. Now we can keep components in their own files which is a huge win for organization. But wait, we can use Webpack for even greater code by using it to bring in node modules. In index.html, remove the other script tags so <em>just</em> bundle.js is left.</p>
 <p>In ClientApp.js, remove the global comment at the top and add at the top</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> (<span class="hljs-string">'react-dom'</span>);
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
 
 <span class="hljs-comment">// change render</span>
-render(React.createElement(MyFirstComponent), <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'app'</span>));
+render(React.createElement(MyFirstComponent), <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>));
 </code></pre>
 <p>In MyTitle, add:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// remove global comment, add at top</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
 <span class="hljs-comment">// add to bottom</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MyTitle;
@@ -346,18 +321,21 @@ render(React.createElement(MyFirstComponent), <span class="hljs-built_in">docume
 <p>We're also using ES6 modules here, if you're not familiar with that syntax. The <code>import React from 'react'</code> is semantically identical to <code>var React = require('react')</code>. The <code>import { render } from 'react-dom'</code> as far as you're concerned here is identical to <code>var render = require('react-dom').render</code>. For further reading, checkout <a href="http://www.2ality.com/2014/09/es6-modules-final.html">2ality</a>'s post on it.</p>
 <h2>Babel</h2>
 <p>Babel is an amazing, amazing tool that has fundamentally altered the landscape of JavaScript as we know. Though they didn't invent the idea of transpiling future syntax of JavaScript into current syntax (thanks Traceur,) they did make it so damn <em>easy</em>. Couple that with the fact it worked with React's JSX (which we'll talk about in a sec) and it was a perfect storm the be massively successful. Babel, in short, is amazing and should be something you consider for every project.</p>
-<p>Babel 6 (the latest revision of Babel) took away a tiny bit of that ease of use but in return it became much easier to develop which is important  when you're maintaining a massive project that's very important. In return it requires a bit of config now.</p>
+<p>Babel 6 (the latest revision of Babel) took away a tiny bit of that ease of use but in return it became much easier to develop which is important when you're maintaining a massive project that's very important. In return it requires a bit of config now.</p>
 <p>Create a new file called .babelrc. Inside .babelrc, put:</p>
 <pre><code class="language-json">{
   <span class="hljs-attr">"presets"</span>: [
     <span class="hljs-string">"react"</span>,
-    [<span class="hljs-string">"env"</span>, {
-      <span class="hljs-attr">"targets"</span>: {
-        <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
-      },
-      <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
-    }]
+    [
+      <span class="hljs-string">"env"</span>,
+      {
+        <span class="hljs-attr">"targets"</span>: {
+          <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
+        },
+        <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
+      }
+    ]
   ]
 }
 </code></pre>
@@ -366,18 +344,18 @@ render(React.createElement(MyFirstComponent), <span class="hljs-built_in">docume
 <p>Also, we're telling Babel to <em>not</em> transform modules. New to Webpack 2 is the ability to do tree shaking. Tree shaking (also known as live code inclusion, as opposed to dead code elimination) is where you start with the entry point to your program (usually an index.js) and begin working outwards, only including the parts of code your code uses. Usually this doesn't buy you much in terms of <em>your</em> code; we tend to not write much dead code for our own apps. However it's extremely helpful for modules you're including. If you use lodash for one function, you don't want to include the whole library. Instead, you want your bundler to just include that barebones of what you need for to work. This is what Webpack 2 and Uglify buy for us; Webpack 2 bundles and Uglify takes the dead code paths out.</p>
 <h2>Webpack loaders</h2>
 <p>So, we could use the Babel CLI to compile our code but we are already using Webpack and Webpack has a good way to send your code through Babel via its loader mechanism. Loaders are utilities that Webpack will pipe input into and accept output out of. You can use loaders to transpile things like CoffeeScript, TypeScript, or PureScript. Webpack loaders can do some other powerful things like allowing you to <em>include</em> CSS, inline images via encoding, and transform SVGs. We're just going to be using the JS transformation abilities for now. Run the command <code>webpack --module-bind 'js=babel-loader' js/ClientApp.js public/bundle.js</code>. Should take a bit longer since it's doing more. Since we're going to be using Webpack for a few other things, let's abstract that configuration from inline to a config file. Add a <code>webpack.config.js</code> with the following.</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">"path"</span>);
 
 <span class="hljs-built_in">module</span>.exports = {
   <span class="hljs-attr">context</span>: __dirname,
-  <span class="hljs-attr">entry</span>: <span class="hljs-string">'./js/ClientApp.js'</span>,
-  <span class="hljs-attr">devtool</span>: <span class="hljs-string">'source-map'</span>,
+  <span class="hljs-attr">entry</span>: <span class="hljs-string">"./src/ClientApp.js"</span>,
+  <span class="hljs-attr">devtool</span>: <span class="hljs-string">"source-map"</span>,
   <span class="hljs-attr">output</span>: {
-    <span class="hljs-attr">path</span>: path.join(__dirname, <span class="hljs-string">'public'</span>),
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">'bundle.js'</span>
+    <span class="hljs-attr">path</span>: path.join(__dirname, <span class="hljs-string">"public"</span>),
+    <span class="hljs-attr">filename</span>: <span class="hljs-string">"bundle.js"</span>
   },
   <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">'.js'</span>, <span class="hljs-string">'.jsx'</span>, <span class="hljs-string">'.json'</span>]
+    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">".js"</span>, <span class="hljs-string">".jsx"</span>, <span class="hljs-string">".json"</span>]
   },
   <span class="hljs-attr">stats</span>: {
     <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>,
@@ -388,12 +366,11 @@ render(React.createElement(MyFirstComponent), <span class="hljs-built_in">docume
     <span class="hljs-attr">rules</span>: [
       {
         <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>
+        <span class="hljs-attr">loader</span>: <span class="hljs-string">"babel-loader"</span>
       }
     ]
   }
 };
-
 </code></pre>
 <p>What you see is essentially a config version of what we were doing with CLI flags. Now it's a bit more resilient and guaranteed consistent. If you run just the command <code>webpack</code> from your project directory you should get the same output. Neat. Go change you npm script to just be &quot;webpack&quot; now. Go try it and make sure it still works. Great! Good? Good. This should get us to a point now where we can talk about JSX.</p>
 <p>At this point we need to make sure Prettier and ESLint ignore our compiled files: we don't care if those files are well formatted or linted. Create a new file called .eslintignore and put this in there:</p>
@@ -503,22 +480,22 @@ const ValidComponent = () =&gt; (
 <p>We are going to add a link tag to our HTML. Typically you wouldn't have both external CSS <em>and</em> styled-components but believe me I'm going to save you a bunch of typing by limiting how much CSS I'm going to have you write. This is not a CSS course, haha.</p>
 <p>Add this to index.html: <code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/public/style.css&quot; /&gt;</code>. From here on out we'll have to use a webserver or else you'll have to mess with the paths to get the CSS to display correctly.</p>
 <p>Let's start building our app. You can delete MyTitle.jsx if you desire; you can also leave it. We're not going to be using it any further. Go ahead and clear out most ClientApp.jsx and let's start putting our new app in here.</p>
-<p>Oh, and you also have to name your video service. I named mine svideo but name your app whatever you want!</p>
+<p>Oh, and you also have to name your video service. I named mine Te Big Show but name your app whatever you want!</p>
 <p>Right now it's going to be pretty simple. Drop in this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
 
 <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"app"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"landing"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>svideo<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>The Big Show<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search"</span> /&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>or Browse All<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 );
 
-render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('app'));
+render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById("app"));
 </span></code></pre>
 <p>Just in case you're not familiar, notice that we have no curly braces and only parens around our JSX. This means there's an implicit return and it's required by the Airbnb rules. If this is confusing for you, I recommend the <a href="http://2ality.com/2012/04/arrow-functions.html">2ality post on it</a>.</p>
 <p>Save and run <code>npm run build</code>. If you followed the CSS naming and HTML structure, you should see a nice looking landing page. Also a good time to make sure if your code is still lint-compliant.</p>
@@ -529,10 +506,12 @@ render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span
 <p>Great, right? So, another part that's been bothering me is that it's such a pain to have to re-run ESLint every time. Either that or you'll get a bunch of errors all at once when you run it before you commit. Luckily we can have Webpack run ESLint each time it compiles. It will then notify you when you have errors.</p>
 <p>Just like we're using the babel-loader to transpile our code, we're going to use the eslint-loader to run our linting for us. eslint-loader is similar to babel-loader, except it won't change our code: just warn us of linting errors.</p>
 <p>Let's change our webpack config to use our new eslint-loader. eslint will automatically use our .eslintrc.json, regardless is called via the CLI or programmatically via webpack.</p>
+<pre><code class="language-bash">npm install eslint-loader
+</code></pre>
 <pre><code class="language-javascript"><span class="hljs-comment">// inside rules, before babel-loader</span>
 {
   <span class="hljs-attr">enforce</span>: <span class="hljs-string">"pre"</span>,
-  <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.js$/</span>,
+  <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
   <span class="hljs-attr">loader</span>: <span class="hljs-string">"eslint-loader"</span>,
   <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>
 }
@@ -540,12 +519,14 @@ render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span
 <p>If you were already running <code>yarn watch</code>, stop and start it again.</p>
 <p>Nice! Any time you save now using <code>yarn watch</code> it will both compile your code <em>and</em> lint it. Pretty slick. And it all runs so much faster. We're going to get to how to make your code reloads <em>even faster</em>. We do the <code>enforce: pre</code> part to make sure that the lint part is loaded before the build step, ensuring our uncompiled code (and not the intermediary) is always the one being linted.</p>
 <p>Now let's switch to the Webpack dev server which makes things just that much easier. The Webpack dev server speeds up development by letting you run a local server and serve all your content from the dev server. It watches and keeps everything in memory so rebuilds go faster. Add the following to your server to get it to serve your statics correctly:</p>
+<pre><code class="language-bash">npm install webpack-dev-server
+</code></pre>
 <pre><code class="language-javascript"><span class="hljs-comment">// add as a top level config item</span>
 devServer: {
   <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>
 },
 </code></pre>
-<p>Now try running this from the directory of your project: <code>./node_modules/webpack-dev-server/bin/webpack-dev-server.js</code>. You could install this globally but we'll use npm's cli to make this easy. You should see in your CLI a bunch output from the build and probably some linter errors. Feel free to fix your errors but now you should be able to go <code>http://localhost:8080</code> to see your project running. You should also see the build output in the console of the browser. Cool! Add the following line to your npm scripts: <code>&quot;dev&quot;: &quot;webpack-dev-server&quot;,</code>. Now you can do <code>yarn dev</code> and your code will start building and serving right away!</p>
+<p>Now try running this from the directory of your project: <code>./node_modules/webpack-dev-server/bin/webpack-dev-server.js</code>. You could install this globally but we'll use npm's cli to make this easy. You should see in your CLI a bunch output from the build and probably some linter errors. Feel free to fix your errors but now you should be able to go <code>http://localhost:8080</code> to see your project running. You should also see the build output in the console of the browser. Cool! Add the following line to your npm scripts: <code>&quot;dev&quot;: &quot;webpack-dev-server&quot;,</code>. Now you can do <code>npm run dev</code> and your code will start building and serving right away!</p>
 <p>But first let's keep going with our app. Our landing is pretty much done for now. We want to start working on the browse all page, but we need to move onto the router to do that real quick.</p>
 
   </section>
@@ -566,12 +547,14 @@ devServer: {
     <p>So now we have a basic landing page and we want to be able to transition to another page. Because we making this as a single page app, we are going to use the marvelous <a href="https://reacttraining.com/react-router/">react-router</a>. react-router is a robust piece of technology and we are just going to be scratching the surface of it now. If you intend on making a single page app, I suggest you deep dive into it to uncover all of its potential. It also now works for React Native.</p>
 <p>We're going to be using React Router version 4 here. This is significant because React Router has gone through several thrashes of API, from 0 to 1, from 1 to 2/3, and now from 2/3 to 4. The authors have assured us that this is the last major thrash but it quite a departure, but thankfully the thrash is worth it. It got a lot easier to use.</p>
 <p>We are just use the top level router at the moment. First, let's move our landing page into its own component so we can use ClientApp as the entry point for the app. Move all the code (except the ReactDOM last line; leave that there) to Landing.jsx.</p>
+<pre><code class="language-bash">npm install react-router react-router-don
+</code></pre>
 <pre><code class="language-javascript"><span class="hljs-comment">// Landing.jsx</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
 <span class="hljs-keyword">const</span> Landing = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"landing"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>svideo<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>The Big Show<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search"</span> /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>or Browse All<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -580,10 +563,10 @@ devServer: {
 export default Landing;
 </span></code></pre>
 <pre><code class="language-javascript"><span class="hljs-comment">// ClientApp.jsx</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { HashRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">'./Landing'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
+<span class="hljs-keyword">import</span> { HashRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">"./Landing"</span>;
 
 <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">HashRouter</span>&gt;</span>
@@ -593,22 +576,22 @@ export default Landing;
   <span class="hljs-tag">&lt;/<span class="hljs-name">HashRouter</span>&gt;</span>
 );
 
-render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('app'));
+render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById("app"));
 </span></code></pre>
 <p>Cool. Make sure ESLint isn't yelling at you and that your app still works. It should appear pretty much the same to you. The HashRouter is a sort of hacky router which puts your route information into the hash of the URL (after the #). We'll use BrowserRouter later so we have nice URLs, but for now this gets us started. The Route component is a matched route; when it matchs the path provided (in this case we don't want fuzzy matching, hence the exactly attribute) it render the component provided, in this case the Landing component. It's wrapped in a div because routers can only have one child since they render them directly, but it's nice because all routes will now get the styling from the .app class for free.</p>
 <p>Now we have a router so we're free to introduce a second page! Let's make our search page. Create a new file called Search.js. In Search.js put:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
 <span class="hljs-keyword">const</span> Search = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &lt;h1&gt;Search!!<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>;
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Search;
 </code></pre>
 <p>Put in ClientApp</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { HashRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">'./Landing'</span>;
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'./Search'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
+<span class="hljs-keyword">import</span> { HashRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">"./Landing"</span>;
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"./Search"</span>;
 
 <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   &lt;HashRouter&gt;
@@ -619,14 +602,14 @@ render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span
   &lt;/HashRouter&gt;
 );
 
-render(&lt;App /&gt;, document.getElementById('app'));
+render(&lt;App /&gt;, document.getElementById("app"));
 </code></pre>
 <p>In Landing, change the <code>&lt;a&gt;or Browse All&lt;/a&gt;</code> to</p>
 <pre><code class="language-javascript">// add at top with other requires
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 // change &lt;a&gt; to
-&lt;Link to='/search'&gt;or Browse All&lt;/Link&gt;
+&lt;Link to="/search"&gt;or Browse All&lt;/Link&gt;;
 </code></pre>
 <p>Now you have another working route (which all it's doing is showing an h1) and a link to get there. When linking between routes with react-router, use the Link component. This allows you to refactor how routes work without having refactor all of your individual links (you could just make your a's href &quot;#/search&quot; and it would work for now but could break later.) Now your button should work to take you to the browser page and you should be able to use back and forward for free thanks to react-router.</p>
 <p>The HashRouter sort of sucks though so let's migrate to BrowserRouter. First, we have to make webpack-dev-server aware that it should pass unfound routes back to index.html anyway. Add the following line your webpack.config.js inside of the devServer object: <code>historyApiFallback: true</code>. Once you do this, restart your Webpack dev server.</p>
@@ -651,8 +634,8 @@ import { Link } from 'react-router-dom';
 <p>Webpack allows you to require in json files just like you would another JavaScript file so we'll take advantage of that when we start coding our new search page.</p>
 <p>Previously Webpack required a JSON loader to load JSON files but now Webpack 2 allows it by default.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// in replace Search.js</span>
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">'../data.json'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">"../data.json"</span>;
 
 <span class="hljs-keyword">const</span> Search = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"search"</span>&gt;</span>
@@ -665,24 +648,25 @@ import { Link } from 'react-router-dom';
 <p>You should see it say dump a lot of JSON to the page at the top of the page. When you use curly braces in JSX, you're telling JSX you want it run a JavaScript expression and then display whatever it returns. If you take away those curly braces (try it) you'll see it literally displays &quot;JSON.stringify(preload, null, 4)&quot; as a string. So that's a neat tool to have; let's take it a step further and display all of the titles as their own components.</p>
 <p>As you may remember, JSX is transpiling your JSX-HTML to function calls. As such, you may be able to imagine that a bunch of sibling components are just an array of components. Since they're just normal ol' JavaScript arrays, we can use some functional-programming-fu to transform data into components.</p>
 <pre><code class="language-javascript">// replace render's return
-&lt;div className='search'&gt;
-  {preload.shows.map((show) =&gt; {
-    return (
-      &lt;h3&gt;{show.title}&lt;/h3&gt;
-    )
+&lt;div className="search"&gt;
+  {preload.shows.map(show =&gt; {
+    return &lt;h3&gt;{show.title}&lt;/h3&gt;;
   })}
 &lt;/div&gt;
 </code></pre>
 <p>You should now see all of the titles in a nice scrollable list. This is the ng-repeat/#each of React: plain ol' JavaScript map. If you are not familiar with map, <a href="https://www.discovermeteor.com/blog/understanding-javascript-map/">read this</a>. This is one of the reasons I <em>love</em> React: for the most part best practices of React are just JavaScript best practices. There's very little DSL to learn. Cool! Let's flesh out how our search results are going to look.</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">'../data.json'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">"../data.json"</span>;
 
 <span class="hljs-keyword">const</span> Search = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"search"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
       {preload.shows.map(show =&gt; (
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"show-card"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">show.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">show.poster</span>}`} /&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+            <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">show.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`}
+            <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">show.poster</span>}`}
+          /&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{show.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({show.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
@@ -698,11 +682,14 @@ export default Search;
 </span></code></pre>
 <p>Try saving and re-rendering. You should see some nice cards for the shows. Notice that we can use those fancy curly braces to insert JavaScript expressions into HTML attribute too. Neat.</p>
 <p>However we can reorganize this a bit better: the ShowCard component can be broken out into its own component. Let's do that. Make a file called ShowCard.jsx and put this in there:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
 <span class="hljs-keyword">const</span> ShowCard = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"show-card"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.show.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.show.poster</span>}`} /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+      <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.show.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`}
+      <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.show.poster</span>}`}
+    /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{props.show.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({props.show.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
@@ -719,34 +706,34 @@ export default ShowCard;
 <p>This brings me to my next point: when coding React, assume you have all the data you need coming in via props and then figure out later how to get it there. That will make it much easier. Just assume it all works and then later go make it work.</p>
 <p>And these principles? Not invented by React. These are battle-tested ideas that stem a lot from functional programming. There's a lot of good computer science going on here, whether or not we use React to apply these concepts.</p>
 <p>Okay, great, let's go to Search and drop in our new component.</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>
-<span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShowCard'</span>
-<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">'../public/data.json'</span>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">"./ShowCard"</span>;
+<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">"../public/data.json"</span>;
 
 <span class="hljs-keyword">const</span> Search = React.createClass({
-  render () {
+  render() {
     <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">'search'</span>&gt;</span>
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"search"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-          {preload.shows.map((show) =&gt; {
-            return (
-              <span class="hljs-tag">&lt;<span class="hljs-name">ShowCard</span> <span class="hljs-attr">show</span>=<span class="hljs-string">{show}</span> /&gt;</span>
-            )
+          {preload.shows.map(show =&gt; {
+            return <span class="hljs-tag">&lt;<span class="hljs-name">ShowCard</span> <span class="hljs-attr">show</span>=<span class="hljs-string">{show}</span> /&gt;</span>;
           })}
         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    )
+    );
   }
-})
+});
 
-export default Search
+export default Search;
 </span></code></pre>
 <p>Much like you give an HTML tag an attribute is how you give props to children components in React. Here we're passing down an object to our child component to make it available to the ShowCard via props. Neat, right? Save it and reload the page. standard is going to give you a bunch of complaints but we're going to address that momentarily. You should see the same UI.</p>
 <p>One of the errors you'll notice in the browser console is something like: &quot;Warning: Each child in an array or iterator should have a unique &quot;key&quot; prop. Check the render method of <code>Search</code>.&quot; You see this because we have multiple, similiar sibling components next to each other and React doesn't have a quick way to tell them apart. If you start reordering them (like if we added a sort feature) then React would just destroy and re-create them each time since it doesn't know you're just reordering them. This is unnecessarily expensive, as you may imagine, and can really kill your performance if you have a lot of complex nodes being created and destroyed. You can give React a shortcut to be able to tell them quickly apart: give each a component a unique identifier as a key attribute. So go add it to the ShowCard component like so: <code>&lt;ShowCard show={show} key={show.imdbID} /&gt;</code>.</p>
 <p>So let's fix our lint errors now. Airbnb lint rules dictates that all props have a propType. React has a features that allows you to set propTypes which it then validates at runtime. This ends up being great for debugging because React now knows what type of props it should be getting so it can give you a meaningful error messages if there's a type mismatch or omission. So let's go fix the errors.</p>
 <p>In ShowCard, go add this just below the declaration of the ShowCard function:</p>
+<pre><code class="language-bash">npm install prop-types
+</code></pre>
 <pre><code class="language-javascript"><span class="hljs-comment">// add below import React</span>
-<span class="hljs-keyword">import</span> { shape, string } <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
+<span class="hljs-keyword">import</span> { shape, string } <span class="hljs-keyword">from</span> <span class="hljs-string">"prop-types"</span>;
 
 <span class="hljs-comment">// add below ShowCard function</span>
 ShowCard.propTypes = {
@@ -760,12 +747,15 @@ ShowCard.propTypes = {
 </code></pre>
 <p>Now React knows to expect that show is both an object full of strings <em>and</em> those strings are required for the ShowCard to work. If a prop is optional (which is fine if it is indeed optional) then leave off the isRequired part. You must provide a default or the Airbnb rules are going to yell at you.</p>
 <p>We can make this a little neater via the ES6/JSX spread operator. Let's try that. Change Search's ShowCard from <code>&lt;ShowCard show={show} /&gt;</code> to <code>&lt;ShowCard {...show} key={show.imdbID} /&gt;</code>. This will take all the properties from show and spread them out as individual properties on ShowCard. You <em>could</em> write <code>&lt;ShowCard title={show.title} poster={show.poster} description={show.description} year={show.year} /&gt;</code> but that's a lot of writing and this cuts an easy corner. Let's go modify ShowCard to match. This is a dangerous tool: only do it if you know every property in the object is needed in the component (or if you're doing a higher order component, but we'll get to the later.)</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { string } <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { string } <span class="hljs-keyword">from</span> <span class="hljs-string">"prop-types"</span>;
 
 <span class="hljs-keyword">const</span> ShowCard = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"show-card"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`} /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+      <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`}
+      <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`}
+    /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({props.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
@@ -783,7 +773,7 @@ ShowCard.propTypes = {
 
 export default ShowCard;
 </span></code></pre>
-<p>We've now made our code a bit cleaner since we don't have to props.show... ad nauseam. From here we're going to move beyond prop types: we're going to incorporate Flow types. Prop types were deprecated as being part of the main package as of 15.5 since it's extra weight if you don't need them. If you're using types (like Flow or TypeScript) then they're redundant. Let's keep going.</p>
+<p>We've now made our code a bit cleaner since we don't have to props.show... ad nauseam.</p>
 
   </section>
   <footer class="post-meta">
@@ -796,18 +786,20 @@ export default ShowCard;
 <article class="post">
   <header class="post-header">
     <h2 class="post-title">
-      <a href="/styled-components/">styled-components 💅</a>
+      <a href="/emotion/">emotion</a>
     </h2>
   </header>
   <section class="post-excerpt">
-    <p>You can do normal CSS (as we have doing so far) but there's been a recent interest in CSS-in-JS. There are several great approaches to this but we're going to use styled-components. The advantage of this is similar to what we see of doing JSX/React over separated templates and controllers: we get to mush together concerns for single components. If we do use CSS-in-JS, it means everything for a single component lives in a single place: we don't have to worry about including the right style sheets for the right components. It means if you include a component on a page, you get the markup, behavior, and style, guaranteed.</p>
+    <p>You can do normal CSS (as we have doing so far) but there's been a recent interest in CSS-in-JS. There are several great approaches to this but we're going to use emotion. The advantage of this is similar to what we see of doing JSX/React over separated templates and controllers: we get to mush together concerns for single components. If we do use CSS-in-JS, it means everything for a single component lives in a single place: we don't have to worry about including the right style sheets for the right components. It means if you include a component on a page, you get the markup, behavior, and style, guaranteed.</p>
 <p>Let's talk about why this may be less than ideal. We have decades of browsers optimizing how to download, parse, and apply external style sheets. This way has been well thought out. I'm not saying we can't figure out how to optimize this path too; we just haven't yet. It's slower. This might be important to the performance of your app; it might not. You're also doubling your parse cost: we have to parse it as JS first, and then as CSS the second time. I think there's more around the tooling here: we can have our cake and eat it too. This is a relatively nascent idea: we'll figure it out if it pans out to be a good idea.</p>
-<p>So the approach that styled-components takes is using ES6 tagged template literals. If this is your first encounter with them, you're not alone! It's outside the scope of this class to explore what they can do in-depth but as is customary, here's the <a href="http://2ality.com/2016/11/computing-tag-functions.html">2ality article</a> on it. Suffice to say that tagged template literals is a peculiar way of invoking normal functions. In our case, we give a CSS string to a styled-component function, it does some processing based on that, and spits out a valid React component. We instead of using a {div,h1,img,input,span,etc.} use the React component. Whatever normal attributes you would have given to that HTML element, you give to the styled component and it works great! Let's style our ShowCard.</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { string } <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
-<span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">'styled-components'</span>;
+<p>So the approach that emotion takes is using ES6 tagged template literals. If this is your first encounter with them, you're not alone! It's outside the scope of this class to explore what they can do in-depth but as is customary, here's the <a href="http://2ality.com/2016/11/computing-tag-functions.html">2ality article</a> on it. Suffice to say that tagged template literals is a peculiar way of invoking normal functions. In our case, we give a CSS string to an emotion function, it does some processing based on that, and spits out a valid React component. We instead of using a {div,h1,img,input,span,etc.} use the React component. Whatever normal attributes you would have given to that HTML element, you give to the styled component and it works great! Let's style our ShowCard.</p>
+<pre><code class="language-bash">npm install emotion react-emotion
+</code></pre>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { string } <span class="hljs-keyword">from</span> <span class="hljs-string">"prop-types"</span>;
+<span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">"react-emotion"</span>;
 
-<span class="hljs-keyword">const</span> Wrapper = styled.div<span class="hljs-string">`
+<span class="hljs-keyword">const</span> Wrapper = styled(<span class="hljs-string">"div"</span>)<span class="hljs-string">`
   width: 32%;
   border: 2px solid #333;
   border-radius: 4px;
@@ -816,7 +808,7 @@ export default ShowCard;
   overflow: hidden;
 `</span>;
 
-<span class="hljs-keyword">const</span> Image = styled.img<span class="hljs-string">`
+<span class="hljs-keyword">const</span> Image = styled(<span class="hljs-string">"img"</span>)<span class="hljs-string">`
   width: 46%;
   float: left;
   margin-right: 10px;
@@ -824,7 +816,10 @@ export default ShowCard;
 
 <span class="hljs-keyword">const</span> ShowCard = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Wrapper</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Image</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`} /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">Image</span>
+      <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`}
+      <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`}
+    /&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({props.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
@@ -842,7 +837,7 @@ ShowCard.propTypes = {
 
 export default ShowCard;
 </span></code></pre>
-<p>Notice we created two different elements here: a div which we turned into Wrapper, and a img which we turned into Image. We associated some CSS with these two HTML elements and used them in our JSX. That's what styled-components are! You replace HTML elements with styled ones! Pretty cool, right? We won't do this for every component in our app since I want to focus more on the JS than I do on the CSS but I wanted to show you how to do it. It's fun to play with. If you were going to do some sort of CSS-in-JS solution, you'd probably want to be all-in on it.</p>
+<p>Notice we created two different elements here: a div which we turned into Wrapper, and a img which we turned into Image. We associated some CSS with these two HTML elements and used them in our JSX. That's what emotion are! You replace HTML elements with styled ones! Pretty cool, right? We won't do this for every component in our app since I want to focus more on the JS than I do on the CSS but I wanted to show you how to do it. It's fun to play with. If you were going to do some sort of CSS-in-JS solution, you'd probably want to be all-in on it.</p>
 <p>We'll do some on the Details page but for now, let's go back to React-y stuff.</p>
 
   </section>
@@ -995,11 +990,13 @@ state = {
     <p><strong>Note</strong>: This is using Jest. If you want to see how to test React components using <a href="https://mochajs.org/">Mocha</a>, Chai, Sinon, and Enzyme, see the <a href="https://btholt.github.io/complete-intro-to-react-v1/">v1 version</a> of this workshop.</p>
 <p>Now that we have something worth testing, let's test it. We're going to be using Facebook's Jest (v19.0.2) to do it since it has some neat features. Go ahead and add the following to your npm scripts: <code>&quot;test&quot;: &quot;jest&quot;</code>. Then go to your JS directory, create a folder called <code>__tests__</code> inside of js, and create a file called Search.spec.jsx. I like to make my tests live right along side the files they test but I'm okay putting them in another directory: up to you. In either case Jest is smart enough to autodiscover them if you make the extension *.spec.jsx (or *.test.jsx if you prefer that. Also .js is fine too, just not with Airbnb.) The <code>__tests__</code> convention is one Facebook uses and works well. Feel free to use your own sensibilities as nothing is really set in stone here.</p>
 <p>In Search.spec.js, put:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> renderer <span class="hljs-keyword">from</span> <span class="hljs-string">'react-test-renderer'</span>;
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'../Search'</span>;
+<pre><code class="language-bash">npm install -D jest react-test-renderer
+</code></pre>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> renderer <span class="hljs-keyword">from</span> <span class="hljs-string">"react-test-renderer"</span>;
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"../Search"</span>;
 
-test(<span class="hljs-string">'Search renders correctly'</span>, () =&gt; {
+test(<span class="hljs-string">"Search renders correctly"</span>, () =&gt; {
   <span class="hljs-keyword">const</span> component = renderer.create(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Search</span> /&gt;</span>);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -1010,33 +1007,37 @@ test(<span class="hljs-string">'Search renders correctly'</span>, () =&gt; {
 <p>So then you may ask, &quot;What happens if I update the component on purpose?&quot; Easy! You run the test again with the -u flag and it will write out new snapshots. Awesome! Also note you're supposed to commit snapshots to git.</p>
 <p>Okay, so go the CLI and run <code>yarn test</code> You're going to get some error about import being a bad token; this is true since as of Node.js 7, V8 (the JS engine that power Node.js) still doesn't understand ES6 modules, but we still want to use them in dev so we need to do some special Babel transformations just for testing. Go to your .babelrc file and put this:</p>
 <pre><code class="language-json">{
-  "presets": [
-    "react",
-    ["env", {
-      "targets": {
-        "browsers": "last 2 versions"
-      },
-      "loose": true,
-      "modules": false
-    }]
+  <span class="hljs-attr">"presets"</span>: [
+    <span class="hljs-string">"react"</span>,
+    [
+      <span class="hljs-string">"env"</span>,
+      {
+        <span class="hljs-attr">"targets"</span>: {
+          <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
+        },
+        <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
+      }
+    ]
   ],
-  "env": {
-    "test": {
-      "plugins": ["transform-es2015-modules-commonjs"]
+  <span class="hljs-attr">"env"</span>: {
+    <span class="hljs-attr">"test"</span>: {
+      <span class="hljs-attr">"plugins"</span>: [<span class="hljs-string">"transform-es2015-modules-commonjs"</span>]
     }
   }
-}
 }
 </code></pre>
 <p>This will add the correct Babel transformation when you are the test environment. Now let's make it so the jest command is run in the test environment (since by default it won't). Go back and change your line in your npm scripts to be <code>&quot;test&quot;: &quot;NODE_ENV=test jest&quot;</code>. Now it will apply that extra transformation for you. Now try running npm t again and see what happens. If it still fails on the import token, run <code>yarn test -- --no-cache</code>. The double dash means you want to pass parameters to whatever npm is running, in this case jest, so the command you're actually running is <code>jest --no-cache</code>. That's a useful trick to know. Then Jest likes to cache Babel transformations for ones it's already done so that you don't have to do it every time; this greatly speeds up running tests but it also doesn't check to see if you updated your .babelrc. So here we need to tell it to do so.</p>
 <p>So now that you have a passing test, try modifiying Search and running it again. It'll give you a git diff type output and you can see what changed. If it's what you expect, you just re-run the command with -u at the end, <code>yarn test -- -u</code>. Let's actually put that as an npm script so we don't have to remember that. Add <code>&quot;test:update&quot;: &quot;NODE_ENV=test jest -u&quot;</code> to your npm scripts in package.json.</p>
 <p>Okay, so now we have a few problems with this test. First, if we modify ShowCard, it's going to fail this test, and I think that's a problem. As much as possible, we want a Search test to only fail if something in Search breaks, and we want ShowCard to fail if ShowCard breaks. Luckily we can do that with a tool called <a href="http://airbnb.io/enzyme/index.html">Enzyme</a> from Airbnb. I show you both so you can see the easiest, more official way of doing snapshot testing (with react-test-renderer) and perhaps the more common way with Enzyme. Also, react-test-renderer and Enzyme can't be imported into the same file and we need to use Enzyme for other tests later.</p>
 <p>So modifiy your test to read:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">'enzyme'</span>;
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'../Search'</span>;
+<pre><code class="language-bash">npm install -D enzyme jest-serializer-enzyme enzyme-adapter-react-16 enzyme-to-json
+</code></pre>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">"enzyme"</span>;
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"../Search"</span>;
 
-test(<span class="hljs-string">'Search renders correctly'</span>, () =&gt; {
+test(<span class="hljs-string">"Search renders correctly"</span>, () =&gt; {
   <span class="hljs-keyword">const</span> component = shallow(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Search</span> /&gt;</span>);
   expect(component).toMatchSnapshot();
 });
@@ -1045,25 +1046,40 @@ test(<span class="hljs-string">'Search renders correctly'</span>, () =&gt; {
 <pre><code class="language-json">"jest": {
   "snapshotSerializers": ["jest-serializer-enzyme"]
 },
+"setupFiles": [
+  "./src/jestSetup.js"
+]
+</code></pre>
+<p>Make a file called <strong>tests</strong>/jestSetup.js then put in there:</p>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { configure } <span class="hljs-keyword">from</span> <span class="hljs-string">"enzyme"</span>;
+<span class="hljs-keyword">import</span> Adapter <span class="hljs-keyword">from</span> <span class="hljs-string">"enzyme-adapter-react-16"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jestSetup</span>(<span class="hljs-params"></span>) </span>{
+  configure({ <span class="hljs-attr">adapter</span>: <span class="hljs-keyword">new</span> Adapter() });
+}
 </code></pre>
 <p>Run <code>yarn test</code> and you can see the difference. Instead of rendering out all the individual shows, we're rendering stubs of ShowCard with the props going into each of them. This ends up being preferable since if ShowCard breaks, it won't break <em>this</em> test. Run <code>yarn test:update</code>. You should see it updated your snapshot and now you're good to keep going. Let's test that if we search on the Search component, it displays the correct amount of shows.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// add two imports</span>
-<span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">'../ShowCard'</span>;
-<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">'../../data.json'</span>;
+<span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">"../ShowCard"</span>;
+<span class="hljs-keyword">import</span> preload <span class="hljs-keyword">from</span> <span class="hljs-string">"../../data.json"</span>;
 
 <span class="hljs-comment">// add new test at the bottom</span>
-test(<span class="hljs-string">'Search should render correct amount of shows'</span>, () =&gt; {
+test(<span class="hljs-string">"Search should render correct amount of shows"</span>, () =&gt; {
   <span class="hljs-keyword">const</span> component = shallow(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Search</span> /&gt;</span>);
   expect(preload.shows.length).toEqual(component.find(ShowCard).length);
 });
 </span></code></pre>
 <p>Enzyme gives us lots of useful features. In this case, we can use it to do jQuery-like selections from our app. We can actually ask it, &quot;How many times does it use this React component&quot;. Logically, based on how our app works, it should have a ShowCard for each item in the preload data, so that's what we've checked here. Let's take it a step further and see if it searches correctly.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// underneath the last test</span>
-test(<span class="hljs-string">'Search should render correct amount of shows based on search'</span>, () =&gt; {
-  <span class="hljs-keyword">const</span> searchWord = <span class="hljs-string">'house'</span>;
+test(<span class="hljs-string">"Search should render correct amount of shows based on search"</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> searchWord = <span class="hljs-string">"house"</span>;
   <span class="hljs-keyword">const</span> component = shallow(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Search</span> /&gt;</span>);
-  component.find('input').simulate('change',{target:{value: searchWord}});
-  const showCount = preload.shows.filter((show) =&gt; `${show.title.toUpperCase()} ${show.description.toUpperCase()}`.includes(searchWord.toUpperCase())).length;
+  component.find("input").simulate("change", { target: { value: searchWord } });
+  const showCount = preload.shows.filter(show =&gt;
+    `${show.title.toUpperCase()} ${show.description.toUpperCase()}`.includes(
+      searchWord.toUpperCase()
+    )
+  ).length;
   expect(showCount).toEqual(component.find(ShowCard).length);
 });
 </span></code></pre>
@@ -1125,57 +1141,21 @@ test(<span class="hljs-string">'Search should render correct amount of shows bas
 </code></pre>
 <p>That's our app as it stands in terms of dependencies. App imports Search which imports ShowCard. If Landing changes, we can leave App, Search, and ShowCard running as is and just graft on a new Landing. If Search changes, we have to graft on a whole new Search which includes new ShowCards.</p>
 <p>This is accomplished with some black magic from Webpack and Babel. Babel when it transforms your code from JSX to JS and from ES6+ to ES5 will also instrument your modules with the ability to be replaced. We'll then insert a small client into our code that will receive small JSON packages via websockets and insert those into our running code. None of these details are important: mostly it's just for your information. react-hot-loader, Webpack, and Babel largely abstract these away from you.</p>
-<p>Let's start with your .babelrc file. Add this as a top level property:</p>
-<pre><code class="language-json">"plugins": [
-  "react-hot-loader/babel"
-],
+<p>Let's start with your .babelrc file. Add this as a property in <code>&quot;env&quot;</code>:</p>
+<pre><code class="language-bash">npm install -D react-hot-loader
+</code></pre>
+<pre><code class="language-json">"development": {
+  "plugins": ["react-hot-loader/babel"]
+}
 </code></pre>
 <p>This is what instruments the code with the ability to be replaced. Refactor your webpack.config.js to look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
-
-<span class="hljs-built_in">module</span>.exports = {
-  <span class="hljs-attr">context</span>: __dirname,
-  <span class="hljs-attr">entry</span>: [
-    <span class="hljs-string">'react-hot-loader/patch'</span>,
-    <span class="hljs-string">'webpack-dev-server/client?http://localhost:8080'</span>,
-    <span class="hljs-string">'webpack/hot/only-dev-server'</span>,
-    <span class="hljs-string">'./js/ClientApp.jsx'</span>
-  ],
-  <span class="hljs-attr">devtool</span>: <span class="hljs-string">'cheap-eval-source-map'</span>,
-  <span class="hljs-attr">output</span>: {
-    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">'public'</span>),
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">'bundle.js'</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>
-  },
-  <span class="hljs-attr">devServer</span>: {
+<pre><code class="language-javascript"><span class="hljs-built_in">module</span>.exports = {
+  …
+  devServer: {
     <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>,
     <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span>
-  },
-  <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">'.js'</span>, <span class="hljs-string">'.jsx'</span>, <span class="hljs-string">'.json'</span>]
-  },
-  <span class="hljs-attr">stats</span>: {
-    <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">reasons</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">chunks</span>: <span class="hljs-literal">false</span>
-  },
-  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(), <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()],
-  <span class="hljs-attr">module</span>: {
-    <span class="hljs-attr">rules</span>: [
-      {
-        <span class="hljs-attr">enforce</span>: <span class="hljs-string">'pre'</span>,
-        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'eslint-loader'</span>,
-        <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>
-      },
-      {
-        <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>
-      }
-    ]
-  }
+  …
 };
 </code></pre>
 <ul>
@@ -1187,10 +1167,11 @@ test(<span class="hljs-string">'Search should render correct amount of shows bas
 </ul>
 <p>From here we need to split the App component out of ClientApp. We need to give hot module reload the ability to split the root component away from what actually renders the component to the page. Turns out we would have had to do this anyway for server-side rendering anyway so it's fine for us to tackle this now.</p>
 <p>Create a new file called App.jsx and put this in there:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { BrowserRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">'./Landing'</span>;
-<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">'./Search'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { BrowserRouter, Route } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> { hot } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-hot-loader"</span>;
+<span class="hljs-keyword">import</span> Landing <span class="hljs-keyword">from</span> <span class="hljs-string">"./Landing"</span>;
+<span class="hljs-keyword">import</span> Search <span class="hljs-keyword">from</span> <span class="hljs-string">"./Search"</span>;
 
 <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   &lt;BrowserRouter&gt;
@@ -1201,94 +1182,10 @@ test(<span class="hljs-string">'Search should render correct amount of shows bas
   &lt;/BrowserRouter&gt;
 );
 
-export default App;
+export default hot(module)(App);
 </code></pre>
-<p>Then from here, make your ClientApp.jsx look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;
-
-<span class="hljs-keyword">const</span> renderApp = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('app'));
-};
-renderApp();
-
-if (module.hot) {
-  module.hot.accept('./App', () =&gt; {
-    renderApp();
-  });
-}
-</span></code></pre>
 <p>The first thing I always here is &quot;Am I shipping that module.hot stuff down in prod!?&quot; Yes, you are, and no, it doesn't matter. It's an if statement that gets runs once. You'll be fine. If you're so worried, use something like <a href="https://github.com/Couto/groundskeeper">groundskeeper</a>.</p>
 <p>Okay, so we made renderApp a function so that we can render the App each time App itself changes. The rest of the modules will take care of themselves: this is all you need to hook up to get hot module reload to work! Also, when you build for production, all of the hot module reload code and transformations will be stripped out, meaning you're not making your package any larger (other than the if statement in ClientApp). Go give it a shot! Open your console (so you can see the debug statements) and go change something in your app. You should see the UI change without a full page reload. Pretty cool!</p>
-
-  </section>
-  <footer class="post-meta">
-    <time class="post-date" datetime=""></time>
-    &middot;
-    <span></span>
-  </footer>
-</article>
-
-<article class="post">
-  <header class="post-header">
-    <h2 class="post-title">
-      <a href="/flow-types-in-javascript/">Flow: Types in JavaScript</a>
-    </h2>
-  </header>
-  <section class="post-excerpt">
-    <p>Welcome to the wild and mystical world of types in JavaScript. Types seem intimidating to many people but with a few basic concepts under our belt we can take advantage of 80% of the benefits. In other words, most of the beneftis of a type checker come from doing the most basic things. You can next-level crazy with types (see <a href="https://www.haskell.org/">Haskell</a> and <a href="https://www.idris-lang.org/">Idris</a>) but here we're just, you know, going with the flow.</p>
-<p>So what is a type? JavaScript has a few basic types that it uses: Number, String, Object, Array, Function, and a few others. Because an item is a String, there's certain things you know about it: you can always call <code>substr</code> on a String and it won't cause an error. However, if you try to call <code>substr</code> on a Number, you're going to get an error. At the most basic level, that's what a type checker like Flow is going to get for you. It's going to prevent those sorts of errors by informing you that you have a type mismatch.</p>
-<p>What's magical about Flow is that most of this type checking is <em>free</em>. You don't have to do anything to get it. You don't have to declare the type! It just knows what type is should by how you initialize it. If I say <code>const x = 'string here'</code> it knows that x is a string; you don't need to tell it that. Only in certain situations do you need to inform Flow of the types.</p>
-<p>So, let's get Flow into our code. First thing to do is run <code>yarn run flow -- init</code>. You can also install Flow globally and do that, but this is nice because it'll run flow from your dependencies. This will create a <code>.flowconfig</code> file for you which is often enough; often you don't need to customize that config at all. In my case today, styled-components is throwing errors that isn't useful so I'm going to add <code>&lt;PROJECT_ROOT&gt;/node_modules/styled-components/*</code> under <code>[ignore]</code>. Unlike ESLint, you do typically want to have Flow run on your dependencies to get those typings. However sometimes libraries ship broken types so you can just ignore them (like I did with styled-components.)</p>
-<p>Luckily for us, there's <a href="https://github.com/flowtype/flow-typed/tree/master/definitions/npm">flow-typed</a>. flow-typed is a repo of pre-typed common libraries for you and styled-components has an entry in there. Just <code>yarn global add flow-typed</code> and then run <code>flow-typed install styled-components@1.4.6</code> (or whatever version you have.) This will create a flow-typed directory that Flow already knows how to read from. In fact, check out the various type available to you. You should be able to grab types for enzyme, jest, react-router and react-router-dom too. Flow already has typings for React and react-dom.</p>
-<p>Now you should be able to do <code>yarn run flow</code>. This likely isn't going to give you any errors back because we haven't opted-in any of our files to be type checked. Let's opt in Search.jsx. Add the <a href="https://en.wikipedia.org/wiki/Directive_(programming)">pragma</a> <code>// @flow</code> to the top of Search.jsx. Now run <code>yarn run flow</code> again. You should see an error that <code>handleSearchTermChange</code> is not annotated. Since Flow doesn't know how <code>handleSearchTermChange</code> is going to be invoked and with what parameters, it requires you to tell it beforehand. We do this by doing a type annotation.</p>
-<p>Since we're including the Babel preset for React, we actually already are getting the Flow plugin. If we hadn't included <code>babel-preset-react</code> We'd have to go include the Flow plugin to do annotations. But it's there already.</p>
-<p>So change in Search.jsx:</p>
-<pre><code class="language-javascript">handleSearchTermChange = <span class="hljs-function">(<span class="hljs-params">event: SyntheticKeyboardEvent &amp;  { target: HTMLInputElement }</span>) =&gt;</span> {
-  <span class="hljs-keyword">this</span>.setState({ <span class="hljs-attr">searchTerm</span>: event.target.value });
-}
-</code></pre>
-<p>What we've done here is add a type for the incoming parameter: a synthethic (React) keyboard event. This type is already built into Flow so we don't have to do anything more with it. Specifically we're interested win the <code>target</code> portion of it, so we identify that as well (target can technically be things other than an HTML input element.) By doing this we're ensuring we'll be ensuring this method is used properly. Run <code>yarn run flow</code> again and you should see <code>No errors!</code>. Congrats!</p>
-<p>We've also made it so <code>handleSearchTerm</code> <em>must</em> be called with a SyntheticKeyboardEvent item. If you try to invoke it without that being passed in, you'll fail when you run Flow. You can use <a href="https://flow.org/en/docs/types/maybe/">maybe types</a> to get around this.</p>
-<p>What's cool is that despite not adding a lot, we actually opted in a lot of behind-the-scenes checking for free. For example, Flow is smart enough to know that <code>searchTerm</code> is a string based on the initial <code>state</code> we provide for the class. Go ahead and try and setState for searchTerm to be a number. Flow will now fail since it was expecting a string there. If you need to accommodate both numbers and strings, you can use what's called a <a href="https://flow.org/en/docs/types/unions/">union type</a>.</p>
-<p>It also bears talking about [any types][any] as well. Any types are both horrible and wonderful. Bascially, anything you make an any type is opted out of type checking. This can be great if you're rapid prototyping something and you're not sure what the final API is going to look like and you don't want to be fiddling with types (however, I will say that fiddling with the types can yield great insights into what you're actually trying to do!) They can also be useful for migrating large codebases to Flow: make big things an any type until you can get around to typing that particular object. Anything that you import from npm that you don't have typings for will by default be an any type. Also note there are <a href="https://flow.org/en/docs/types/mixed/">mixed types</a> that are useful if you're not sure what sort of thing is being passed in. Use this when possible instead of an any type.</p>
-<p>At this point it's useful to see if your editor has integration with Flow. Sublime's is lackluster but you can at least get it show you where you have Flow errors in real time (using the same SublimeLinter we used for ESLint.) If you're going to double-down on Flow, you may investigate <a href="https://nuclide.io/docs/languages/flow/">Nuclide</a>. It's a package for [Atom][atom] that integrates with all of Facebook's tooling like React, React Native, Hack, and Flow. For now I'll be using just the Sublime tools.</p>
-<p>Let's go opt-in ShowCard.jsx too! Add the <code>// @flow</code> pragma to the top. Here we've added propTypes from the prop-types library and with Flow those no longer serve a purpose: these types are known at compile time and thus don't need to be checked <em>again</em> at run time. Thus let's modify ShowCard like so:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// delete prop-types import</span>
-
-<span class="hljs-comment">// replace ShowCard</span>
-<span class="hljs-keyword">const</span> ShowCard = (
-  props: {
-    <span class="hljs-attr">poster</span>: string,
-    <span class="hljs-attr">title</span>: string,
-    <span class="hljs-attr">year</span>: string,
-    <span class="hljs-attr">description</span>: string
-  }
-) =&gt; (
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Wrapper</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">Image</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`} /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({props.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{props.description}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">Wrapper</span>&gt;</span>
-);
-</span></code></pre>
-<p>This is how you type functional components. Pretty cool, right? Now if you run Flow again you shouldn't see any issues. On a tangent, imagine showing that code to yourself pre-ES6. Doesn't even look like (old) JavaScript! But's powerful, expressive, and readable (in my opinion.)</p>
-<p>You should be able to <code>// @flow</code> to the top of Landing and App and make no changes.</p>
-<p>Add <code>// @flow</code> to the top of ClientApp.jsx. You'll start getting errors about module.hot which is a global variable given to you by Webpack. Right now (as of writing) flow-typed doesn't have types for Webpack's API but this can be a useful exercise in showing you how to define your own types. In your flow-typed folder, add a file called types.js (not in the npm directory.) Add the following:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
-declare <span class="hljs-keyword">var</span> <span class="hljs-built_in">module</span>: {
-  <span class="hljs-attr">hot</span>: {
-    accept(path: string, <span class="hljs-attr">callback</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">void</span>): <span class="hljs-keyword">void</span>
-  }
-};
-</code></pre>
-<p>Here we've declared a global variable called module which is an object that has a method called accept. accept takes two parameters: a string called path and a function called callback which returns undefined. accept itself returns undefined. There are several things you can put into these type definition files but I'll let you explore that on your own time!</p>
-<p>Now our whole project is typed! We'll continue using Flow for the rest of this project but by no means are types required for React or any sort of JavaScript. It is extremely useful to have; you'll see here as you write code it's very useful to have the instant feedback that something is wrong with your code; once you start getting that it's hard to go back. But yeah, again, this is just one tool you could use to write React. It's not required.</p>
 
   </section>
   <footer class="post-meta">
@@ -1307,9 +1204,7 @@ declare <span class="hljs-keyword">var</span> <span class="hljs-built_in">module
   <section class="post-excerpt">
     <p>So now we want to add a third page: a page where we can watch the trailer. This is going to be an application of what we know already.</p>
 <p>Create a new file in js/ called Details.jsx. In Details put:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
 <span class="hljs-keyword">const</span> Details = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"details"</span>&gt;</span>
@@ -1330,17 +1225,14 @@ declare <span class="hljs-keyword">var</span> <span class="hljs-built_in">module
 <p>If you see a blank page and a 404 error in your console, chances are you need to add a leading slash to your script and link tags in your index.html file for the paths, <code>&lt;&amp;NegativeMediumSpace;script src=&quot;/public/bundle.js&quot;&gt;&lt;/script&gt;</code> and <code>&lt;&amp;NegativeMediumSpace;link rel=&quot;stylesheet&quot; href=&quot;/public/style.css&quot; /&gt;</code>.</p>
 <p>Let's show you a neat debugging tip I totally stole from <a href="https://twitter.com/ryanflorence">Ryan Florence</a>. replace that h1 with this:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// instead of the h1 in render</span>
-<span class="hljs-string">``</span><span class="hljs-string">`javascript
-const Details = props =&gt; (
-  &lt;div className="details"&gt;
-    &lt;pre&gt;
-      &lt;code&gt;
-        {JSON.stringify(props, null, 4)}
-      &lt;/code&gt;
-    &lt;/pre&gt;
-  &lt;/div&gt;
+<span class="hljs-keyword">const</span> Details = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"details"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">code</span>&gt;</span>{JSON.stringify(props, null, 4)}<span class="hljs-tag">&lt;/<span class="hljs-name">code</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
 );
-</span></code></pre>
+</code></pre>
 <p>This is a useful way to dump your params to the page to see what react-router is giving you. This is <strong>awesome</strong> for state too; it shows you in real time what your state looks like. We'll dig into React Tools here in a sec for even better debugging but for now let's keep trucking with our Details.jsx.</p>
 <p>We're going to show all the details of a show on this page and be able to play the trailer. There's a <em>big</em> problem here that we don't have that data on this page though; it's available in the Search route. We <em>could</em> require in data.json here given that our data is available that way but that typically isn't the case: we typically get this data from the server. If that's the case, you don't want to make two AJAX requests to get the same data. In other words, we need to share this state between components. The way you do this is by pushing up the state to the highest common ancestor component. In this case, that'd be the router in App. So let's first refactor Search to still work while it pulls in that data from Search.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// in App.jsx</span>
@@ -1353,38 +1245,10 @@ const Details = props =&gt; (
 <p>Now make Search use it</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// delete import preload from '../data.json'</span>
 
-<span class="hljs-comment">// below imports, above class Search</span>
-
-type Show = {
-  <span class="hljs-attr">title</span>: string,
-  <span class="hljs-attr">description</span>: string,
-  <span class="hljs-attr">year</span>: string,
-  <span class="hljs-attr">imdbID</span>: string,
-  <span class="hljs-attr">poster</span>: string,
-  <span class="hljs-attr">trailer</span>: string
-};
-
-<span class="hljs-comment">// add propTypes inside Search</span>
-props: {
-  <span class="hljs-attr">shows</span>: <span class="hljs-built_in">Array</span>&lt;Show&gt;
-};
-
 <span class="hljs-comment">// change the map call instead of {preload.shows</span>
 {<span class="hljs-keyword">this</span>.props.route.shows
 </code></pre>
 <p>Cool. Now it should still work but Search no longer imports the data but merely receives it as props. Now we can share this data with Details. Notice that Search has a function instead of a React component, but if you think about it a function that returns markup <em>is</em> a React component, so this works. This allows us to pass in the shows as a parameter to Search. You'll see this pattern often with react-router v4.</p>
-<p>You'll also notice we created a Show type to match our show data. This is called a <a href="https://flow.org/en/docs/types/aliases/">type alias</a> This is awesome because now we can refer to objects as Shows and get all the typing along with that. Our first use of it was specifying that the props passed down was going to be an array of Shows. The syntax with Array has to do with a concept called <a href="https://flow.org/en/docs/types/generics/">generic types</a> which you are welcome to read about but beyond the scope of this class. You can do really cool and clever things with types and it's worth a dive down the rabbit's hole.</p>
-<p>This Show type is going to be used across multiple files so it's worth it to make it a project-wide type like we did with Webpack's module. Go add to the types.js file in flow-typed. Add <code>declare</code> before type so it says <code>declare type Show = { […]</code> so it's now a global. Remove it from Search.jsx. Everything should still work. It should look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">export</span> type Show = {
-  <span class="hljs-attr">title</span>: string,
-  <span class="hljs-attr">description</span>: string,
-  <span class="hljs-attr">year</span>: string,
-  <span class="hljs-attr">imdbID</span>: string,
-  <span class="hljs-attr">poster</span>: string,
-  <span class="hljs-attr">trailer</span>: string
-};
-</code></pre>
-<p>Do note with with Flow and ESLint integrations with editors, it can be slow to update. It can be frustrating when you think you fixed a problem and it hasn't resolved yet.</p>
 <p>Now we're going to pass the correct show to the Details page. There's a bunch of ways to do this:</p>
 <ul>
 <li>We could pass all the shows and let Details select the correct show. This isn't great because Details is given an additional concern it doesn't need to have.</li>
@@ -1393,19 +1257,16 @@ props: {
 </ul>
 <p>Add the following to App:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// add at the imports at the top</span>
-<span class="hljs-keyword">import</span> type { Match } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-
-<span class="hljs-comment">// replace Details Match component</span>
 &lt;Route
   path=<span class="hljs-string">"/details/:id"</span>
-  component={(props: { <span class="hljs-attr">match</span>: Match }) =&gt; {
-    <span class="hljs-keyword">const</span> selectedShow = preload.shows.find(<span class="hljs-function">(<span class="hljs-params">show: Show</span>) =&gt;</span> props.params.id === show.imdbID);
+  component={props =&gt; {
+    <span class="hljs-keyword">const</span> selectedShow = preload.shows.find(
+      <span class="hljs-function"><span class="hljs-params">show</span> =&gt;</span> props.params.id === show.imdbID
+    );
     <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Details</span> <span class="hljs-attr">show</span>=<span class="hljs-string">{selectedShow}</span> {<span class="hljs-attr">...props</span>} /&gt;</span>;
   }}
 /&gt;
 </span></code></pre>
-<p>At the top we're importing types from types from the flow-typed file for react-router-dom. We'll use this type to refer to the match attribute of the props. This is how you import types if you need to in the future. In case it's apparent to you, this a Flow-specific feature; this import line of code gets stripped out by the Babel transform. In the code, we're finding the correct show and passing that to Search.</p>
-<p>If you run flow, you'll notice we broke our tests. Here is yet another benefit of Flow: it'd be easy to forget how modifying the API for Search would break the tests. Flow is quick to get that. It derives that fact because we changed what props are being passed to Search. Clever!</p>
 <p>This should put the correct show as one of the props that App passes down to Details. If you refresh the page, you should see it now. (You have to have a valid URL for a details page, like <code>&lt;your localhost&gt;/details/tt4574334</code>).</p>
 <p>As an aside, I've found the <em>best</em> way to organize React method component is the following</p>
 <ol>
@@ -1417,21 +1278,22 @@ props: {
 </ol>
 <p>Makes it easier to find things when you look for them.</p>
 <p>So let's actually display some cool stuff:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-
-<span class="hljs-keyword">const</span> Details = <span class="hljs-function">(<span class="hljs-params">props: { show: Show }</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> Details = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> {
   <span class="hljs-keyword">const</span> { title, description, year, poster, trailer } = props.show;
   <span class="hljs-keyword">return</span> (
     &lt;div className="details"&gt;
       &lt;header&gt;
-        &lt;h1&gt;svideo&lt;/h1&gt;
+        &lt;h1&gt;The Big Show&lt;/h1&gt;
       &lt;/header&gt;
       &lt;section&gt;
         &lt;h1&gt;{title}&lt;/h1&gt;
         &lt;h2&gt;({year})&lt;/h2&gt;
-        &lt;img src={`/public/img/posters/${poster}`} alt={`Poster for ${title}`} /&gt;
+        &lt;img
+          src={`/public/img/posters/${poster}`}
+          alt={`Poster for ${title}`}
+        /&gt;
         &lt;p&gt;{description}&lt;/p&gt;
       &lt;/section&gt;
       &lt;div&gt;
@@ -1449,15 +1311,13 @@ export default Details;
 </code></pre>
 <p>Now you should have some nice looking UI.</p>
 <p>Well, now we have a header in two places. That's a <strong>strong</strong> indicator that you should make it's its own component. Let's abstract that in a component and use that in both places. Create a new file called Header.jsx and put this in there:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
 
 <span class="hljs-keyword">const</span> Header = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/"</span>&gt;</span>
-        svideo
-      <span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/"</span>&gt;</span>The Big Show<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span></span>
 );
@@ -1474,66 +1334,61 @@ export default Details;
 <p>Let's put a back button on the Header so you can get back to Search after you reach it.</p>
 <pre><code class="language-javascript">// after the h1 inside .header
 &lt;h2&gt;
-  &lt;Link to='/search'&gt;
-    Back
-  &lt;/Link&gt;
+  &lt;Link to="/search"&gt;Back&lt;/Link&gt;
 &lt;/h2&gt;
 </code></pre>
 <p>So let's integrate this to Search. But it's not so simple since on Search we want the header to have a search input and on Details we want a back button. So let's see how to do that. In Header.jsx put:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-
-<span class="hljs-keyword">const</span> Header = <span class="hljs-function">(<span class="hljs-params">props: { showSearch?: boolean, handleSearchTermChange?: <span class="hljs-built_in">Function</span>, searchTerm?: string }</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> Header = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> {
   <span class="hljs-keyword">let</span> utilSpace;
   <span class="hljs-keyword">if</span> (props.showSearch) {
     utilSpace = (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{props.searchTerm}</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{props.handleSearchTermChange}</span> /&gt;</span>
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+        <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+        <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search"</span>
+        <span class="hljs-attr">value</span>=<span class="hljs-string">{props.searchTerm}</span>
+        <span class="hljs-attr">onChange</span>=<span class="hljs-string">{props.handleSearchTermChange}</span>
+      /&gt;</span>
     );
   } else {
     utilSpace = (
       <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">className</span>=<span class="hljs-string">"header-back"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/search"</span>&gt;</span>
-          Back
-        <span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/search"</span>&gt;</span>Back<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
     );
   }
   return (
     <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/"</span>&gt;</span>
-          svideo
-        <span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">"/"</span>&gt;</span>svideo<span class="hljs-tag">&lt;/<span class="hljs-name">Link</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
       {utilSpace}
     <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
   );
 };
 
-Header.defaultProps = {
-  showSearch: false,
-  handleSearchTermChange: function noop() {},
-  searchTerm: ''
-};
-
 export default Header;
 </span></code></pre>
 <p>In Search.jsx:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// add to requires</span>
-<span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">'./Header'</span>;
+<span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">"./Header"</span>;
 
 <span class="hljs-comment">// replace &lt;header&gt;&lt;/header&gt;</span>
-&lt;Header handleSearchTermChange={<span class="hljs-keyword">this</span>.handleSearchTermChange} showSearch searchTerm={<span class="hljs-keyword">this</span>.state.searchTerm} /&gt;
+&lt;Header
+  handleSearchTermChange={<span class="hljs-keyword">this</span>.handleSearchTermChange}
+  showSearch
+  searchTerm={<span class="hljs-keyword">this</span>.state.searchTerm}
+/&gt;;
 </code></pre>
 <p>This is how you have a child component modify a parent's state: you pass down the callback and let it call the parent to let the parent modify the state. This also demonstrates how to conditionally show one component and not another.</p>
 <p>Lastly let's make our show cards clickable.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">'styled-components'</span>;
-<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> styled <span class="hljs-keyword">from</span> <span class="hljs-string">"styled-components"</span>;
+<span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
 
 <span class="hljs-keyword">const</span> Wrapper = styled.div<span class="hljs-string">`
   width: 32%;
@@ -1550,18 +1405,13 @@ export default Header;
   margin-right: 10px;
 `</span>;
 
-<span class="hljs-keyword">const</span> ShowCard = (
-  props: {
-    <span class="hljs-attr">poster</span>: string,
-    <span class="hljs-attr">title</span>: string,
-    <span class="hljs-attr">year</span>: string,
-    <span class="hljs-attr">description</span>: string,
-    <span class="hljs-attr">imdbID</span>: string
-  }
-) =&gt; (
+<span class="hljs-keyword">const</span> ShowCard = <span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Link</span> <span class="hljs-attr">to</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">details</span>/${<span class="hljs-attr">props.imdbID</span>}`}&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">Wrapper</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">Image</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`} /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Image</span>
+        <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`}
+        <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">props.poster</span>}`}
+      /&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({props.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
@@ -1584,13 +1434,17 @@ color: black;
 <p>Now each of the cards should be clickable through to the details page and styled correctly!</p>
 <p>But now we've messed up Search's tests. If you remember, Enzyme's testing library only shallowly renders the components. Since we moved the Header logic from inside Search into Header, this is going to mess up the existing snapshot (which we can just fix easily) and we won't be able to directly interact with the input inside of Header without some additional code.</p>
 <p>We also changed the contract of Search since it now requires the shows to passed in. Modify the three <code>&lt;Search /&gt;</code> to be <code>&lt;Search shows={preload.shows} /&gt;</code>.</p>
-<p>First, run <code>yarn test:update</code> to fix your snapshot. Your third test will still fail but the first one will update.</p>
+<p>First, run <code>npm run test:update</code> to fix your snapshot. Your third test will still fail but the first one will update.</p>
 <p>Next, open Search.spec.jsx and add this:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// last import</span>
-<span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">'../Header'</span>;
+<span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">"../Header"</span>;
 
 <span class="hljs-comment">// modify the simulation line</span>
-component.find(Header).dive().find(<span class="hljs-string">'input'</span>).simulate(<span class="hljs-string">'change'</span>, { <span class="hljs-attr">target</span>: { <span class="hljs-attr">value</span>: searchWord } });
+component
+  .find(Header)
+  .dive()
+  .find(<span class="hljs-string">"input"</span>)
+  .simulate(<span class="hljs-string">"change"</span>, { <span class="hljs-attr">target</span>: { <span class="hljs-attr">value</span>: searchWord } });
 </code></pre>
 <p>By finding and &quot;diving&quot; on the Header component, we're telling Enzyme to also render that Header so that we can interact with it. Run your tests again and now they should pass!</p>
 
@@ -1702,67 +1556,6 @@ componentDidMount() {
 <li>iframes and Chrome/Firefox extensions don't work with React Dev Tools as of writing.</li>
 <li>react-router v4 has <em>a lot</em> of nesting.</li>
 </ul>
-
-  </section>
-  <footer class="post-meta">
-    <time class="post-date" datetime=""></time>
-    &middot;
-    <span></span>
-  </footer>
-</article>
-
-<article class="post">
-  <header class="post-header">
-    <h2 class="post-title">
-      <a href="/react-perf-tools/">React Perf Tools</a>
-    </h2>
-  </header>
-  <section class="post-excerpt">
-    <p>As you app continues to grow, sometimes slow code paths can start to emerge. React is pretty good about being performant under normal loads but even React has its limits. One of the ways this can manifest itself is how often components are running through the re-render process without actually changing anything. These are called wasted renders. Normally you don't have to actually to worry about this: React handles a lot of wasted re-renders without slowing down the app at all and you can spend your time building features instead. It's helpful to glance at your performance data every once in a while but don't dwell too much on it.</p>
-<p>So, as it stands, our code actually does have a code path that we can optimize. So let's go explore how we discover the problem and ultimately fix it.</p>
-<p>First, open ClientApp.jsx and add:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// before App import</span>
-<span class="hljs-keyword">import</span> Perf <span class="hljs-keyword">from</span> <span class="hljs-string">'react-addons-perf'</span>;
-
-<span class="hljs-comment">// after App import</span>
-<span class="hljs-built_in">window</span>.Perf = Perf;
-Perf.start();
-</code></pre>
-<p>This is temporary code. You do not want to ship this in production. We'll use this to profile our code, get the useful info out of it and then remove it since it'd just be dead bloat in production.</p>
-<p>So what we've done is import the React perf tools which will automatically hook into your React instance and track wasted renders for you. We're just setting it on the global window object so we can manipulate it directly in the console.</p>
-<p>Now open your browser, and navigate around you webpage a bunch. Visit all the various ShowCard components, visit the home route, enter some search terms, delete the terms, enter different ones, etc. You want to cause the UI to change in all the various ways that are possible so we can see the slow code paths.</p>
-<p>After you've sufficiently prodded your app, open you console and enter: <code>Perf.stop()</code> followed by <code>Perf.printWasted()</code>. You see a console table of the various wasted renders sorted by how many milliseconds are being wasted. Based on this you can find hot code paths and see what you can do to fix tihs.</p>
-<p>In our case, it jumps out that our ShowCard is the greatest offender here: it's a component that once rendered never changes. There's nothing dynamic about any individual ShowCard. Armed with this information, there's an easy optimization to make here: shouldComponentUpdate.</p>
-<p>Open ShowCard.jsx. Right now it's a function component so we can't add a lifecycle method like shouldComponentUpdate so we'll have to convert it to a class. Change the component to be:</p>
-<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShowCard</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  shouldComponentUpdate() {
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  }
-  props: {
-    <span class="hljs-attr">poster</span>: string,
-    <span class="hljs-attr">title</span>: string,
-    <span class="hljs-attr">year</span>: string,
-    <span class="hljs-attr">description</span>: string,
-    <span class="hljs-attr">imdbID</span>: string,
-  };
-  render() {
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Wrapper</span> <span class="hljs-attr">to</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">details</span>/${<span class="hljs-attr">this.props.imdbID</span>}`}&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">Image</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">{</span>`${<span class="hljs-attr">this.props.title</span>} <span class="hljs-attr">Show</span> <span class="hljs-attr">Poster</span>`} <span class="hljs-attr">src</span>=<span class="hljs-string">{</span>`/<span class="hljs-attr">public</span>/<span class="hljs-attr">img</span>/<span class="hljs-attr">posters</span>/${<span class="hljs-attr">this.props.poster</span>}`} /&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{this.props.title}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>({this.props.year})<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{this.props.description}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">Wrapper</span>&gt;</span>
-    );
-  }
-}
-</span></code></pre>
-<p>Now whenever React goes to see if an individual instance of a ShowCard has changed, it'll run this function instead of running the render function and diffing against the last run of the render function. As you may imagine, this will go a lot faster.</p>
-<p>Let's talk about the mechanics of shouldComponentUpdate. Almost all of the times I personally have used it, it has been just what you've seen here: returing false to ensure a component that doesn't needs to update doesn't go through the diffing process. There is a more advanced use case where perhaps updates only rely on a few pieces of state, props, or anything else. Here in shouldComponentUpdate, you could check those and only re-render if those changed. See the <a href="https://facebook.github.io/react/docs/optimizing-performance.html#shouldcomponentupdate-in-action">React docs</a> for more info.</p>
-<p>Go back and profile your App again with the perf tools. You'll notice that ShowCard has disappeared from it.</p>
-<p>This is a powerful and potentially bug-causing tool for you. Fathom later that we had dynamic content to ShowCard. If you call setState, nothing will happen until you remove or modify that shouldComponentUpdate method. Many people once they learn about shouldComponentUpdate will put it everywhere: don't. You'll cause more issues than you'll solve trying to solve perf problems that don't exist. React is normally fast enough as-is.</p>
 
   </section>
   <footer class="post-meta">
@@ -1922,7 +1715,6 @@ export default connect(mapStateToProps)(Landing);
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { connect } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux'</span>;
 <span class="hljs-keyword">import</span> { Link } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> type { RouterHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
 <span class="hljs-keyword">import</span> { object } <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>;
 <span class="hljs-keyword">import</span> { setSearchTerm } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actionCreators'</span>;
 
@@ -1930,12 +1722,7 @@ export default connect(mapStateToProps)(Landing);
   <span class="hljs-keyword">static</span> contextTypes = {
     <span class="hljs-attr">history</span>: object
   };
-  props: {
-    <span class="hljs-attr">searchTerm</span>: string,
-    <span class="hljs-attr">handleSearchTermChange</span>: <span class="hljs-built_in">Function</span>,
-    <span class="hljs-attr">history</span>: RouterHistory
-  };
-  goToSearch = <span class="hljs-function">(<span class="hljs-params">event: SyntheticEvent</span>) =&gt;</span> {
+  goToSearch = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
     event.preventDefault();
     <span class="hljs-keyword">this</span>.props.history.push(<span class="hljs-string">'/search'</span>);
   };
@@ -1961,7 +1748,7 @@ const mapStateToProps = state =&gt; ({
   searchTerm: state.searchTerm
 });
 
-const mapDispatchToProps = (dispatch: Function) =&gt; ({
+const mapDispatchToProps = (dispatch) =&gt; ({
   handleSearchTermChange(event) {
     dispatch(setSearchTerm(event.target.value));
   }
@@ -1985,7 +1772,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 <span class="hljs-comment">// change the export</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Landing;
 </code></pre>
-<p>Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.) The <code>// $FlowFixMe</code> bit is so that Flow will ignore that line: it doesn't handle decorators yet so this suppresses that warning. The reason why the transform is considered &quot;legacy&quot; is because the proposal is a bit in flux, but in nearly any case this code won't have to change.</p>
+<p>Decorators are an amazing feature to augment functionality in a declarative fashion. The code you see here works precisely the same way the other code did, it's just a bit less dense (I'd say.)</p>
 <p>We're going to revert back to using the <code>connect(…)(…)</code> notation for now though. Because the Flow parser doesn't support decorators (and won't until it's more stable) we can't use it since Prettier relies on the Flow parser. It works with the Babylon parser but then we can't use Flow. Make your own tradeoff there. You could put the <code>// prettier-ignore</code> comment to make it ignore the line too.</p>
 <p>Okay, so we're using a form to take care of when hits enter: this is good for accessibility and a good way to take care of submitting. Once a user hits enter, it calls goToSearch where we imperatively call the router to take us to search. This will preserve our Redux state; however Search.jsx is not yet reading from Redux. Let's go fix that.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
@@ -1995,10 +1782,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 <span class="hljs-keyword">import</span> ShowCard <span class="hljs-keyword">from</span> <span class="hljs-string">'./ShowCard'</span>;
 <span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">'./Header'</span>;
 
-<span class="hljs-keyword">const</span> Search = (props: {
-  <span class="hljs-attr">searchTerm</span>: string, <span class="hljs-comment">// eslint-disable-line react/no-unused-prop-types</span>
-  shows: <span class="hljs-built_in">Array</span>&lt;Show&gt;
-}) =&gt; (
+<span class="hljs-keyword">const</span> Search = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> (
   &lt;div className="search"&gt;
     &lt;Header showSearch /&gt;
     &lt;div&gt;
@@ -2035,27 +1819,12 @@ export default connect(mapStateToProps)(Search);
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> connect(mapStateToProps, mapDispatchToProps)(Header);
 </code></pre>
 <p>Since Header does care about modifying searchTerm we bring in that logic here. Otherwise not much changes!</p>
-<p>Okay, so now we want to type Redux. This is no trivial feat but I promise that it will save you bugs. And in the process we'll learn more about Flow too.</p>
-<p>Open your types.js file in the flow-typed directory and let's add some new types.</p>
-<pre><code class="language-javascript">declare type ActionType = <span class="hljs-string">'SET_SEARCH_TERM'</span>;
-
-declare type ActionT&lt;A: ActionType, P&gt; = {|
-  type: A,
-  <span class="hljs-attr">payload</span>: P
-|};
-
-<span class="hljs-keyword">export</span> type Action = ActionT&lt;<span class="hljs-string">'SET_SEARCH_TERM'</span>, string&gt;;
-</code></pre>
-<p>Here we're creating an enumerated typed: ActionType. This type is saying anything that's an ActionType can only be that string. Any other string (or anything else) causes an error. This will catch if you spell the action types wrong, which is nice. We'll add another action type later so you can see how to add more.</p>
-<p>Below that, we're creating a generic action. It's saying the <code>type</code> (which we represent with A) will always an ActionType. It's then saying that there must be a payload type which is always going to exist. We can then define later what that type is going to be (which is what P represents.) We are not representing the full flux standard action here: it also accounts for metadata and errors, but we're keeping it simple here.</p>
-<p>Lastly, with the Action (which is the one we export, the other two are only for use in this file) is creating the actual useable action types. We only have one: SET_SEARCH_TERM. It then defines what those that action's payloads must look like: a string. For every action we create, we'll have to come back here to define their types. This seems burdensome but it makes your Redux ironclad. The ongoing mantainability here makes it worth it, I promise.</p>
-<p>Go back to reducers.js. We're going to refactor this a bit to make it play nicer with Flow as well as show you a cool way to write Redux: combineReducers.</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
+<p>Go back to reducers.js. We're going to show you a cool way to write Redux: combineReducers.</p>
+<pre><code class="language-javascript">
 <span class="hljs-keyword">import</span> { combineReducers } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
 <span class="hljs-keyword">import</span> { SET_SEARCH_TERM } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actions'</span>;
 
-<span class="hljs-keyword">const</span> searchTerm = <span class="hljs-function">(<span class="hljs-params">state = <span class="hljs-string">''</span>, action: Action</span>) =&gt;</span> {
+<span class="hljs-keyword">const</span> searchTerm = <span class="hljs-function">(<span class="hljs-params">state = <span class="hljs-string">''</span>, action</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (action.type === SET_SEARCH_TERM) {
     <span class="hljs-keyword">return</span> action.payload;
   }
@@ -2125,56 +1894,55 @@ declare type ActionT&lt;A: ActionType, P&gt; = {|
     <p>Redux by default has no mechanism for handling asynchronous actions. This means you either need handle everything async in your React (gross) or we have to augment Redux to handle async code. The former is really a non-starter: the point of Redux is centralize state manipulation and not having the ability to do async is just silly. We're building interfaces and interfaces are inherently asynchronous.</p>
 <p>Okay, so we've decided to augment Redux. How do we do that? Well, luckily, Redux has the ability to have middlewares, just like your server can. What we can do is add a middleware that can handle more than just action objects. There are a myriad of popular ones but we're going with the most popular, the simplest, and the easiest: redux-thunk. I'll venture to say that if you build any Redux app, rarely are you not going to include redux-thunk, even if you include one of the other async Redux middlewares. It's frequently useful, even beyond it's async applications.</p>
 <p>So let's unpack the word thunk: it's a weird computer science term that seems more difficult than it actually is. Imagine you need to write a line of code that calculates the conversion from USD to EUR. You could write it:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> dollars = <span class="hljs-number">10</span>
-<span class="hljs-keyword">const</span> conversionRate = <span class="hljs-number">1.1</span>
-<span class="hljs-keyword">const</span> euros = dollars * conversionRate
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> dollars = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">const</span> conversionRate = <span class="hljs-number">1.1</span>;
+<span class="hljs-keyword">const</span> euros = dollars * conversionRate;
 </code></pre>
 <p>This code is a bit weak because we've statically defined the conversionRate. It would be better if we didn't have to define this value statically but instead could be determined whenever you accessed conversionRate (since currency exchange rates flucuate constantly.) What if we did:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> dollars = <span class="hljs-number">10</span>
-<span class="hljs-keyword">const</span> conversionRate = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-number">1.1</span> }
-<span class="hljs-keyword">const</span> euros = dollars * conversionRate()
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> dollars = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">const</span> conversionRate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-number">1.1</span>;
+};
+<span class="hljs-keyword">const</span> euros = dollars * conversionRate();
 </code></pre>
 <p>Now we've wrapped conversionRate in a function. Even though the answer is unchanged, conversion is now a black box that we can swap out that 1.1 whenever. The value of the return of conversionRate isn't set until that function is actually called. conversionRate is now a <strong>thunk</strong>. It's a function wrapping a value.</p>
 <p>The above is a silly example, but it with Redux this becomes a powerfuly feature. Instead of determining what action object you're going to dispatch at write time, you can determine what you're going dispatch conditionally or asynchronously. redux-thunk even let's you dispatch multiple actions! This can be useful if you have one action that leads to multiple, cascading changes. Super useful. So let's go change the Details page to use redux-thunk instead of local state. First, let's go include the redux-thunk middleware. Go store.js:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-<span class="hljs-keyword">import</span> { createStore, compose, applyMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>; <span class="hljs-comment">// add applyMiddleware</span>
-<span class="hljs-keyword">import</span> thunk <span class="hljs-keyword">from</span> <span class="hljs-string">'redux-thunk'</span>; <span class="hljs-comment">// import</span>
-<span class="hljs-keyword">import</span> rootReducer <span class="hljs-keyword">from</span> <span class="hljs-string">'./reducers'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { createStore, compose, applyMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">"redux"</span>; <span class="hljs-comment">// add applyMiddleware</span>
+<span class="hljs-keyword">import</span> thunk <span class="hljs-keyword">from</span> <span class="hljs-string">"redux-thunk"</span>; <span class="hljs-comment">// import</span>
+<span class="hljs-keyword">import</span> rootReducer <span class="hljs-keyword">from</span> <span class="hljs-string">"./reducers"</span>;
 
 <span class="hljs-keyword">const</span> store = createStore(
   rootReducer,
   compose(
     applyMiddleware(thunk), <span class="hljs-comment">// middleware</span>
-    <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span> === <span class="hljs-string">'object'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span>.devToolsExtension !== <span class="hljs-string">'undefined'</span> ? <span class="hljs-built_in">window</span>.devToolsExtension() : <span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> f
+    <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span> === <span class="hljs-string">"object"</span> &amp;&amp;
+    <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span>.devToolsExtension !== <span class="hljs-string">"undefined"</span>
+      ? <span class="hljs-built_in">window</span>.devToolsExtension()
+      : <span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> f
   )
 );
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store;
 </code></pre>
 <p>This is how you add more middlewares! Okay, so let's go add the <em>sync</em> action to make it so we can store omdbData in our data store. This is a good distinction to make: you still will only modify your state via reducers, and reducers are only kicked off via dispatching action <em>synchronously</em> to your root reducer. Always. So what we're doing is kicking off an async action which when it finishes will dispatch a sync action to the root reducer. We're just adding another step. So let's do our sync action. Go to actions.js:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ADD_API_DATA = <span class="hljs-string">'ADD_API_DATA'</span>;
-</code></pre>
-<p>Go to types.js</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// new action type</span>
-declare type ActionType = <span class="hljs-string">'SET_SEARCH_TERM'</span> | <span class="hljs-string">'ADD_API_DATA'</span>;
-
-<span class="hljs-comment">// new action</span>
-<span class="hljs-keyword">export</span> type Action = ActionT&lt;<span class="hljs-string">'SET_SEARCH_TERM'</span>, string&gt; | ActionT&lt;<span class="hljs-string">'ADD_API_DATA'</span>, Show&gt;;
+<pre><code class="language-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> ADD_API_DATA = <span class="hljs-string">"ADD_API_DATA"</span>;
 </code></pre>
 <p>We're expanding how many different types of actions we can have.</p>
 <p>Now go to reducers.js:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// at top</span>
-<span class="hljs-keyword">import</span> { SET_SEARCH_TERM, ADD_API_DATA } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actions'</span>;
+<span class="hljs-keyword">import</span> { SET_SEARCH_TERM, ADD_API_DATA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./actions"</span>;
 
 <span class="hljs-keyword">const</span> DEFAULT_STATE = {
-  <span class="hljs-attr">searchTerm</span>: <span class="hljs-string">''</span>,
+  <span class="hljs-attr">searchTerm</span>: <span class="hljs-string">""</span>,
   <span class="hljs-attr">apiData</span>: {}
 };
 
 <span class="hljs-comment">// add new reducer</span>
 <span class="hljs-keyword">const</span> apiData = <span class="hljs-function">(<span class="hljs-params">state = {}, action: Action</span>) =&gt;</span> {
   <span class="hljs-keyword">if</span> (action.type === ADD_API_DATA) {
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, state, { [action.payload.imdbID]: action.payload });
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.assign({}, state, {
+      [action.payload.imdbID]: action.payload
+    });
   }
   <span class="hljs-keyword">return</span> state;
 };
@@ -2187,26 +1955,26 @@ declare type ActionType = <span class="hljs-string">'SET_SEARCH_TERM'</span> | <
 <p>Go to actionCreators.js:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
 
-<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">'axios'</span>;
-<span class="hljs-keyword">import</span> { SET_SEARCH_TERM, ADD_API_DATA } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actions'</span>;
+<span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">"axios"</span>;
+<span class="hljs-keyword">import</span> { SET_SEARCH_TERM, ADD_API_DATA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./actions"</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSearchTerm</span>(<span class="hljs-params">searchTerm: string</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setSearchTerm</span>(<span class="hljs-params">searchTerm</span>) </span>{
   <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: SET_SEARCH_TERM, <span class="hljs-attr">payload</span>: searchTerm };
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAPIData</span>(<span class="hljs-params">apiData: Show</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAPIData</span>(<span class="hljs-params">apiData</span>) </span>{
   <span class="hljs-keyword">return</span> { <span class="hljs-attr">type</span>: ADD_API_DATA, <span class="hljs-attr">payload</span>: apiData };
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAPIDetails</span>(<span class="hljs-params">imdbID: string</span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-function">(<span class="hljs-params">dispatch: <span class="hljs-built_in">Function</span></span>) =&gt;</span> {
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAPIDetails</span>(<span class="hljs-params">imdbID</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-params">dispatch</span> =&gt;</span> {
     axios
       .get(<span class="hljs-string">`http://localhost:3000/<span class="hljs-subst">${imdbID}</span>`</span>)
       .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
         dispatch(addAPIData(response.data));
       })
       .catch(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> {
-        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'axios error'</span>, error); <span class="hljs-comment">// eslint-disable-line no-console</span>
+        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">"axios error"</span>, error); <span class="hljs-comment">// eslint-disable-line no-console</span>
       });
   };
 }
@@ -2219,13 +1987,6 @@ declare type ActionType = <span class="hljs-string">'SET_SEARCH_TERM'</span> | <
 <span class="hljs-keyword">import</span> { getOMDBDetails } <span class="hljs-keyword">from</span> <span class="hljs-string">'./actionCreators'</span>;
 
 <span class="hljs-comment">// delete axios import</span>
-
-<span class="hljs-comment">// more propTypes (outside of show)</span>
-props: {
-  <span class="hljs-attr">rating</span>: string,
-  <span class="hljs-attr">getAPIData</span>: <span class="hljs-built_in">Function</span>,
-  <span class="hljs-attr">show</span>: Show
-};
 
 <span class="hljs-comment">// replace componentDidMount</span>
 componentDidMount() {
@@ -2246,7 +2007,7 @@ componentDidMount() {
   };
 };
 
-<span class="hljs-keyword">const</span> mapDispatchToProps = <span class="hljs-function">(<span class="hljs-params">dispatch: <span class="hljs-built_in">Function</span>, ownProps</span>) =&gt;</span> ({
+<span class="hljs-keyword">const</span> mapDispatchToProps = <span class="hljs-function">(<span class="hljs-params">dispatch, ownProps</span>) =&gt;</span> ({
   getAPIData() {
     dispatch(getAPIDetails(ownProps.show.imdbID));
   }
@@ -2465,25 +2226,23 @@ test(<span class="hljs-string">'getAPIDetails'</span>, (done: <span class="hljs-
 <p>First thing you typically need to do when getting ready to implements server-side rendering (SSR) is split browser concerns and app concerns. The key is anything in the <em>initial render path</em> cannot reference anything in the DOM or window. We can't make AJAX calls, reference the window, or anything else browser specific. All the browser specific code has to live in ClientApp.jsx (which won't get included in Node,) componentDidMount (which doesn't get called,) or behind some sort of <code>if (window)</code> conditional.</p>
 <p>We're pretty close to good as is. The only thing we need to do is move BrowserRouter from App to ClientApp. In Node we'll use a ServerRouter so we need the Browser one to only to get included client-side. So remove BrowserRouter from App altogether and wrap the <code>&lt;App /&gt;</code> in the render call in ClientApp with <code>&lt;BrowserRouter&gt;&lt;/BrowserRouter&gt;</code> (after importing it.)</p>
 <p>That should be enough. ClientApp should look like:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { BrowserRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
+<span class="hljs-keyword">import</span> { BrowserRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">"./App"</span>;
 
 <span class="hljs-keyword">const</span> renderApp = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   render(
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span>,
-    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'app'</span>)
+    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>)
   );
 };
 renderApp();
 
 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot) {
-  <span class="hljs-built_in">module</span>.hot.accept(<span class="hljs-string">'./App'</span>, () =&gt; {
+  <span class="hljs-built_in">module</span>.hot.accept(<span class="hljs-string">"./App"</span>, () =&gt; {
     renderApp();
   });
 }
@@ -2495,7 +2254,7 @@ renderApp();
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>svideo<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>The Big Show<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/public/style.css"</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
@@ -2509,13 +2268,16 @@ renderApp();
 <pre><code class="language-json">{
   <span class="hljs-attr">"presets"</span>: [
     <span class="hljs-string">"react"</span>,
-    [<span class="hljs-string">"env"</span>, {
-      <span class="hljs-attr">"targets"</span>: {
-        <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
-      },
-      <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
-    }]
+    [
+      <span class="hljs-string">"env"</span>,
+      {
+        <span class="hljs-attr">"targets"</span>: {
+          <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
+        },
+        <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
+      }
+    ]
   ],
   <span class="hljs-attr">"plugins"</span>: [
     <span class="hljs-string">"react-hot-loader/babel"</span>,
@@ -2534,29 +2296,33 @@ renderApp();
 </code></pre>
 <p>Okay, let's create a server now! Create a server.js <em>outside</em> the js folder and put it just in the root directory of your project. Put:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">/* eslint no-console:0 */</span>
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'babel-register'</span>);
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"babel-register"</span>);
 
-<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
-<span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
-<span class="hljs-keyword">const</span> ReactDOMServer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-dom/server'</span>);
-<span class="hljs-keyword">const</span> ReactRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-router-dom'</span>);
-<span class="hljs-keyword">const</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
-<span class="hljs-keyword">const</span> App = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./js/App'</span>).default;
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react"</span>);
+<span class="hljs-keyword">const</span> ReactDOMServer = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react-dom/server"</span>);
+<span class="hljs-keyword">const</span> ReactRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react-router-dom"</span>);
+<span class="hljs-keyword">const</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">"lodash"</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
+<span class="hljs-keyword">const</span> App = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./src/App"</span>).default;
 
 <span class="hljs-keyword">const</span> StaticRouter = ReactRouter.StaticRouter;
 <span class="hljs-keyword">const</span> port = <span class="hljs-number">8080</span>;
-<span class="hljs-keyword">const</span> baseTemplate = fs.readFileSync(<span class="hljs-string">'./index.html'</span>);
+<span class="hljs-keyword">const</span> baseTemplate = fs.readFileSync(<span class="hljs-string">"./index.html"</span>);
 <span class="hljs-keyword">const</span> template = _.template(baseTemplate);
 
 <span class="hljs-keyword">const</span> server = express();
 
-server.use(<span class="hljs-string">'/public'</span>, express.static(<span class="hljs-string">'./public'</span>));
+server.use(<span class="hljs-string">"/public"</span>, express.static(<span class="hljs-string">"./public"</span>));
 
 server.use(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> context = {};
   <span class="hljs-keyword">const</span> body = ReactDOMServer.renderToString(
-    React.createElement(StaticRouter, { <span class="hljs-attr">location</span>: req.url, context }, React.createElement(App))
+    React.createElement(
+      StaticRouter,
+      { <span class="hljs-attr">location</span>: req.url, context },
+      React.createElement(App)
+    )
   );
 
   <span class="hljs-keyword">if</span> (context.url) {
@@ -2576,15 +2342,14 @@ server.listen(port);
 <p>Okay. Let's run the app. Run in your CLI <code>npm run build</code> (to build your bundle) then run <code>NODE_ENV=server node server.js</code>. Make sure you re-run build because the webpack-dev-server doesn't necessarily re-write out the bundle.js. Okay, so now try going to localhost:5050. While you won't necessarily notice it loading quicker since you were developing locally, check out view source. You should see it ships with a bunch of markup which means your page will load <em>much</em> quicker on a slower connection since markup will start rendering before the JS is done downloading.</p>
 <p>Congrats! You've done server-side rendering! Now, we messed up hot module reload. It'd be great if we didn't have to choose between SSR and HMR. And we don't! Let's go include that too. First go to your webpack config and let's change just one thing:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// replace the entry:</span>
-entry: [<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>, <span class="hljs-string">'./js/ClientApp.jsx'</span>],
+entry: [<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>, <span class="hljs-string">'./js/ClientApp.js'</span>],
 </code></pre>
 <p>We need webpack to look for the webpack middleware instead of the dev server. After doing this, the dev server will not work and you can only use the server version. So let's go make the server work as well.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// more includes</span>
-<span class="hljs-keyword">const</span> webpackDevMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack-dev-middleware'</span>);
-<span class="hljs-keyword">const</span> webpackHotMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack-hot-middleware'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
-<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./webpack.config'</span>);
-
+<span class="hljs-keyword">const</span> webpackDevMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack-dev-middleware"</span>);
+<span class="hljs-keyword">const</span> webpackHotMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack-hot-middleware"</span>);
+<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack"</span>);
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./webpack.config"</span>);
 
 <span class="hljs-comment">// after the creation of server, before server.use('public' …)</span>
 <span class="hljs-keyword">const</span> compiler = webpack(config);
@@ -2622,8 +2387,8 @@ server.use(webpackHotMiddleware(compiler));
 <p>Let's go create a component that will handle our asynchronous routes to contain all that craziness. Create a file called AsyncRoute and go there.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
 
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> Spinner <span class="hljs-keyword">from</span> <span class="hljs-string">'./Spinner'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> Spinner <span class="hljs-keyword">from</span> <span class="hljs-string">"./Spinner"</span>;
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AsyncRoute</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   state = {
@@ -2636,10 +2401,6 @@ server.use(webpackHotMiddleware(compiler));
     });
   }
   component = <span class="hljs-literal">null</span>;
-  props: {
-    <span class="hljs-attr">props</span>: mixed,
-    <span class="hljs-attr">loadingPromise</span>: <span class="hljs-built_in">Promise</span>&lt;{ <span class="hljs-attr">default</span>: Class&lt;React.Component&lt;*, *, *&gt;&gt; }&gt;
-  };
   render() {
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.loaded) {
       <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">this.component</span> {<span class="hljs-attr">...this.props.props</span>} /&gt;</span>;
@@ -2662,7 +2423,13 @@ export default AsyncRoute;
 </code></pre>
 <p>Go to App.jsx</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// replace Landing Match</span>
-&lt;Route exact path=<span class="hljs-string">"/"</span> component={props =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AsyncRoute</span> <span class="hljs-attr">props</span>=<span class="hljs-string">{props}</span> <span class="hljs-attr">loadingPromise</span>=<span class="hljs-string">{import(</span>'<span class="hljs-attr">.</span>/<span class="hljs-attr">Landing</span>')} /&gt;</span>} /&gt;
+&lt;Route
+  exact
+  path=<span class="hljs-string">"/"</span>
+  component={props =&gt; (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">AsyncRoute</span> <span class="hljs-attr">props</span>=<span class="hljs-string">{props}</span> <span class="hljs-attr">loadingPromise</span>=<span class="hljs-string">{import(</span>"<span class="hljs-attr">.</span>/<span class="hljs-attr">Landing</span>")} /&gt;</span>
+  )}
+/&gt;
 </span></code></pre>
 <p>So now we're using our AsyncRoute function to make Landing Async. First we import our route. Then we pull in our AsyncRoute and use it inside of Route. This is amazing since Webpack knows to perform a code split here and we get all the rest of that for free.</p>
 <p>Let's talk about what sucks about this. Now, server-side rendered or not, we get a loading screen first thing. No matter what. Ideally we get this loading screen <em>sooner</em> but nonetheless that happens. There are ways around this but it involves either making some compromises by not server-side rendering properly and getting a <a href="https://stackoverflow.com/questions/34311221/what-is-checksum-in-react-and-how-to-use-it">checksum violation</a> or by greatly increasing the complexity of this by introducing the concept of module hydration where on the server you make sure to send down the bundle and the correct chunk at the same time and detect that on the client. For now I'm happy just introducing code-splitting to our app for now.</p>
@@ -2692,59 +2459,60 @@ export default AsyncRoute;
 </code></pre>
 <p>Nothing too crazy here either. Just extendingo out the same ideas. Now try navigating around your app and watch the network tab. You should different bundles being pulled in. If you look at your terminal output, you'll see we actually haven't optimized too much: our main bundle is nearly a megabyte and the smaller bundles are between three and fifty kilobytes. Like I said, this is wonderful for big apps where you can section off where dependencies. For example the fifty kilobyte bundle is the only one that has axios. The rest of the app doesn't need it. But for our tiny React routes, this isn't super useful. And the ability to codesplit isn't free either: Webpack includes some glue code to make this work. So evaluate this tool carefully!</p>
 <p>Our problem now is that we've broken hot module reload. Unfortunately, with Webpack in the state it's a choose-two situation with code-spliting, hot module replacement, and server side rendering. You can set up two different webpack configs since you only need code splitting on the front end and you only need HMR in dev: I leave that to you.</p>
-<p>Lastly, let's set up our build for production. Go modify build in package.json's scripts to be:</p>
-<pre><code class="language-json">"build": "webpack -p",
-"build:dev": "webpack -d",
-</code></pre>
-<p><code>-p</code> optimizes Webpack for production with Uglify and builds React in production mode. <code>-d</code> builds in debug mode and includes much more verbose logging. The sizes you see for <code>-p</code> are minified and uglified (including tree shaking) but are not gzipped. Usually your server does that automatically.</p>
 <p>Go modify your Webpack config's devtool line to be</p>
 <pre><code class="language-javascript">devtool: process.env.NODE_ENV === <span class="hljs-string">'development'</span> ? <span class="hljs-string">'cheap-eval-source-map'</span> : <span class="hljs-literal">false</span>,
 </code></pre>
 <p>Source maps are huge and this will only ship them in dev. You'll also need to conditionally include the webpack middleware stuff: refactor to look like this:</p>
-<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
+<pre><code class="language-javascript"><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">"path"</span>);
+<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack"</span>);
 
 <span class="hljs-keyword">const</span> config = {
   <span class="hljs-attr">context</span>: __dirname,
-  <span class="hljs-attr">entry</span>: [<span class="hljs-string">'./js/ClientApp.jsx'</span>],
-  <span class="hljs-attr">devtool</span>: process.env.NODE_ENV === <span class="hljs-string">'development'</span> ? <span class="hljs-string">'cheap-eval-source-map'</span> : <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">entry</span>: [<span class="hljs-string">"./src/ClientApp.js"</span>],
+  <span class="hljs-attr">devtool</span>:
+    process.env.NODE_ENV === <span class="hljs-string">"development"</span> ? <span class="hljs-string">"cheap-eval-source-map"</span> : <span class="hljs-literal">false</span>,
   <span class="hljs-attr">output</span>: {
-    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">'public'</span>),
-    <span class="hljs-attr">filename</span>: <span class="hljs-string">'bundle.js'</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>
+    <span class="hljs-attr">path</span>: path.resolve(__dirname, <span class="hljs-string">"public"</span>),
+    <span class="hljs-attr">filename</span>: <span class="hljs-string">"bundle.js"</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>
   },
   <span class="hljs-attr">devServer</span>: {
     <span class="hljs-attr">hot</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">'/public/'</span>,
+    <span class="hljs-attr">publicPath</span>: <span class="hljs-string">"/public/"</span>,
     <span class="hljs-attr">historyApiFallback</span>: <span class="hljs-literal">true</span>
   },
   <span class="hljs-attr">resolve</span>: {
-    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">'.js'</span>, <span class="hljs-string">'.jsx'</span>, <span class="hljs-string">'.json'</span>]
+    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">".js"</span>, <span class="hljs-string">".jsx"</span>, <span class="hljs-string">".json"</span>]
   },
   <span class="hljs-attr">stats</span>: {
     <span class="hljs-attr">colors</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">reasons</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">chunks</span>: <span class="hljs-literal">false</span>
   },
-  <span class="hljs-attr">plugins</span>: [<span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(), <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()],
+  <span class="hljs-attr">plugins</span>: [
+    <span class="hljs-keyword">new</span> webpack.HotModuleReplacementPlugin(),
+    <span class="hljs-keyword">new</span> webpack.NamedModulesPlugin()
+  ],
   <span class="hljs-attr">module</span>: {
     <span class="hljs-attr">rules</span>: [
       {
-        <span class="hljs-attr">enforce</span>: <span class="hljs-string">'pre'</span>,
+        <span class="hljs-attr">enforce</span>: <span class="hljs-string">"pre"</span>,
         <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'eslint-loader'</span>,
+        <span class="hljs-attr">loader</span>: <span class="hljs-string">"eslint-loader"</span>,
         <span class="hljs-attr">exclude</span>: <span class="hljs-regexp">/node_modules/</span>
       },
       {
         <span class="hljs-attr">test</span>: <span class="hljs-regexp">/\.jsx?$/</span>,
-        <span class="hljs-attr">loader</span>: <span class="hljs-string">'babel-loader'</span>
+        <span class="hljs-attr">loader</span>: <span class="hljs-string">"babel-loader"</span>
       }
     ]
   }
 };
 
-<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'development'</span>) {
-  config.entry.unshift(<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>);
+<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">"development"</span>) {
+  config.entry.unshift(
+    <span class="hljs-string">"webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000"</span>
+  );
 }
 
 <span class="hljs-built_in">module</span>.exports = config;
@@ -2756,10 +2524,10 @@ export default AsyncRoute;
 </code></pre>
 <p>And now we can only run the dev middleware in dev, as well as gzip our output. This is often done at the reverse proxy layer (like Nginx) but let's do it here for fun. Refactor your server to be:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">//include</span>
-<span class="hljs-keyword">const</span> compression = <span class="hljs-built_in">require</span>(<span class="hljs-string">'compression'</span>);
+<span class="hljs-keyword">const</span> compression = <span class="hljs-built_in">require</span>(<span class="hljs-string">"compression"</span>);
 
 server.use(compression());
-<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">'development'</span>) {
+<span class="hljs-keyword">if</span> (process.env.NODE_ENV === <span class="hljs-string">"development"</span>) {
   <span class="hljs-keyword">const</span> compiler = webpack(config);
   server.use(
     webpackDevMiddleware(compiler, {

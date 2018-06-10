@@ -59,8 +59,8 @@
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"app"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/react/dist/react.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/react-dom/dist/react-dom.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react@16.4.0/umd/react.development.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react-dom@16.4.0/umd/react-dom.development.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
         <span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
           <span class="hljs-keyword">return</span> React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
@@ -83,21 +83,21 @@
 <p>Before we start here, let's delete that bottom script tag in index.html and add <code>&lt;&amp;NegativeMediumSpace;script src=&quot;js/ClientApp.js&quot;&gt;&lt;/script&gt;</code> so we can get some good code separation going. Once done with that, create the js directory and add the ClientApp.js file. In this file, let's put</p>
 <pre><code class="language-javascript"><span class="hljs-comment">/* global React ReactDOM */</span>
 
-<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      React.createElement(<span class="hljs-string">'h1'</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">'Check out this component!'</span>)
-    )
+<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> React.createElement(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    React.createElement(<span class="hljs-string">"h1"</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">"Check out this component!"</span>)
   );
 };
 
-<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    React.createElement(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>),
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>),
-      React.createElement(MyTitle, <span class="hljs-literal">null</span>)
-    )
+<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> React.createElement(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>),
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>),
+    React.createElement(MyTitle, <span class="hljs-literal">null</span>)
   );
 };
 
@@ -117,12 +117,12 @@ ReactDOM.render(
 <span class="hljs-keyword">var</span> ce = React.createElement;
 
 <span class="hljs-comment">//replace MyFirstComponent's body</span>
-<span class="hljs-keyword">return</span> (
-  ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-    ce(MyTitleFact, <span class="hljs-literal">null</span>),
-    ce(MyTitleFact, <span class="hljs-literal">null</span>),
-    ce(MyTitleFact, <span class="hljs-literal">null</span>)
-  )
+<span class="hljs-keyword">return</span> ce(
+  <span class="hljs-string">"div"</span>,
+  <span class="hljs-literal">null</span>,
+  ce(MyTitleFact, <span class="hljs-literal">null</span>),
+  ce(MyTitleFact, <span class="hljs-literal">null</span>),
+  ce(MyTitleFact, <span class="hljs-literal">null</span>)
 );
 </code></pre>
 <p>This just helps us from having to write <code>React.createElement</code> so many times. There are DOM helpers and an additional package you can bring in that creates helper functions but in all honesty we're not going to use this way of creating React components once we get to using JSX.</p>
@@ -133,38 +133,30 @@ ReactDOM.render(
 
 <span class="hljs-keyword">var</span> ce = React.createElement;
 
-<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">props</span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      ce(<span class="hljs-string">'h1'</span>, <span class="hljs-literal">null</span>, props.title)
-    )
+<span class="hljs-keyword">var</span> MyTitle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">props</span>) </span>{
+  <span class="hljs-keyword">return</span> ce(<span class="hljs-string">"div"</span>, <span class="hljs-literal">null</span>, ce(<span class="hljs-string">"h1"</span>, <span class="hljs-literal">null</span>, props.title));
+};
+
+<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> ce(
+    <span class="hljs-string">"div"</span>,
+    <span class="hljs-literal">null</span>,
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"House of Cards"</span> }),
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"Orange is the New Black"</span> }),
+    ce(MyTitle, { <span class="hljs-attr">title</span>: <span class="hljs-string">"Stranger Things"</span> })
   );
 };
 
-<span class="hljs-keyword">var</span> MyFirstComponent = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> (
-    ce(<span class="hljs-string">'div'</span>, <span class="hljs-literal">null</span>,
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'House of Cards'</span>}),
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'Orange is the New Black'</span>}),
-      ce(MyTitle, {<span class="hljs-attr">title</span>: <span class="hljs-string">'Stranger Things'</span>})
-    )
-  );
-};
-
-ReactDOM.render(
-  ce(MyFirstComponent),
-  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>)
-);
-
+ReactDOM.render(ce(MyFirstComponent), <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>));
 </code></pre>
 <p>Now we can change the contents of the title. But since we can pass in lots of props, we can widely differing elements of the same class based on what props are passed into the element. Let's take it a step further (and show you how to do inline styles and attributes with React.)</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// change MyTitle's inside h1</span>
-ce(<span class="hljs-string">'h1'</span>, {<span class="hljs-attr">style</span>: {<span class="hljs-attr">color</span>: props.color}}, props.title)
+ce(<span class="hljs-string">"h1"</span>, { <span class="hljs-attr">style</span>: { <span class="hljs-attr">color</span>: props.color } }, props.title);
 
 <span class="hljs-comment">// change MyFirstComponent inside div</span>
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'rebeccapurple'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'House of Cards'</span>}),
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'peru'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Orange is the New Black'</span>}),
-ce(MyTitle, {<span class="hljs-attr">color</span>: <span class="hljs-string">'burlywood'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Stranger Things'</span>})
+ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"rebeccapurple"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"House of Cards"</span> }),
+  ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"peru"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"Orange is the New Black"</span> }),
+  ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"burlywood"</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">"Stranger Things"</span> });
 </code></pre>
 <p>Let's stop there and switch our attention a bit to tooling. So far we've been writing React with no compile step which is pretty cool and not something enough do in the course of React. Certain things will just make sense because you know what it complies to. In any case, onward!</p>
 

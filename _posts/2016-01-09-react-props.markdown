@@ -10,8 +10,8 @@ Previously Webpack required a JSON loader to load JSON files but now Webpack 2 a
 
 ```javascript
 // in replace Search.js
-import React from 'react';
-import preload from '../data.json';
+import React from "react";
+import preload from "../data.json";
 
 const Search = () => (
   <div className="search">
@@ -28,11 +28,9 @@ As you may remember, JSX is transpiling your JSX-HTML to function calls. As such
 
 ```javascript
 // replace render's return
-<div className='search'>
-  {preload.shows.map((show) => {
-    return (
-      <h3>{show.title}</h3>
-    )
+<div className="search">
+  {preload.shows.map(show => {
+    return <h3>{show.title}</h3>;
   })}
 </div>
 ```
@@ -40,15 +38,18 @@ As you may remember, JSX is transpiling your JSX-HTML to function calls. As such
 You should now see all of the titles in a nice scrollable list. This is the ng-repeat/#each of React: plain ol' JavaScript map. If you are not familiar with map, [read this][map]. This is one of the reasons I _love_ React: for the most part best practices of React are just JavaScript best practices. There's very little DSL to learn. Cool! Let's flesh out how our search results are going to look.
 
 ```javascript
-import React from 'react';
-import preload from '../data.json';
+import React from "react";
+import preload from "../data.json";
 
 const Search = () => (
   <div className="search">
     <div>
       {preload.shows.map(show => (
         <div className="show-card">
-          <img alt={`${show.title} Show Poster`} src={`/public/img/posters/${show.poster}`} />
+          <img
+            alt={`${show.title} Show Poster`}
+            src={`/public/img/posters/${show.poster}`}
+          />
           <div>
             <h3>{show.title}</h3>
             <h4>({show.year})</h4>
@@ -68,11 +69,14 @@ Try saving and re-rendering. You should see some nice cards for the shows. Notic
 However we can reorganize this a bit better: the ShowCard component can be broken out into its own component. Let's do that. Make a file called ShowCard.jsx and put this in there:
 
 ```javascript
-import React from 'react';
+import React from "react";
 
 const ShowCard = props => (
   <div className="show-card">
-    <img alt={`${props.show.title} Show Poster`} src={`/public/img/posters/${props.show.poster}`} />
+    <img
+      alt={`${props.show.title} Show Poster`}
+      src={`/public/img/posters/${props.show.poster}`}
+    />
     <div>
       <h3>{props.show.title}</h3>
       <h4>({props.show.year})</h4>
@@ -97,27 +101,25 @@ And these principles? Not invented by React. These are battle-tested ideas that 
 Okay, great, let's go to Search and drop in our new component.
 
 ```javascript
-import React from 'react'
-import ShowCard from './ShowCard'
-import preload from '../public/data.json'
+import React from "react";
+import ShowCard from "./ShowCard";
+import preload from "../public/data.json";
 
 const Search = React.createClass({
-  render () {
+  render() {
     return (
-      <div className='search'>
+      <div className="search">
         <div>
-          {preload.shows.map((show) => {
-            return (
-              <ShowCard show={show} />
-            )
+          {preload.shows.map(show => {
+            return <ShowCard show={show} />;
           })}
         </div>
       </div>
-    )
+    );
   }
-})
+});
 
-export default Search
+export default Search;
 ```
 
 Much like you give an HTML tag an attribute is how you give props to children components in React. Here we're passing down an object to our child component to make it available to the ShowCard via props. Neat, right? Save it and reload the page. standard is going to give you a bunch of complaints but we're going to address that momentarily. You should see the same UI.
@@ -128,9 +130,13 @@ So let's fix our lint errors now. Airbnb lint rules dictates that all props have
 
 In ShowCard, go add this just below the declaration of the ShowCard function:
 
+```bash
+npm install prop-types
+```
+
 ```javascript
 // add below import React
-import { shape, string } from 'prop-types';
+import { shape, string } from "prop-types";
 
 // add below ShowCard function
 ShowCard.propTypes = {
@@ -148,12 +154,15 @@ Now React knows to expect that show is both an object full of strings _and_ thos
 We can make this a little neater via the ES6/JSX spread operator. Let's try that. Change Search's ShowCard from `<ShowCard show={show} />` to `<ShowCard {...show} key={show.imdbID} />`. This will take all the properties from show and spread them out as individual properties on ShowCard. You _could_ write `<ShowCard title={show.title} poster={show.poster} description={show.description} year={show.year} />` but that's a lot of writing and this cuts an easy corner. Let's go modify ShowCard to match. This is a dangerous tool: only do it if you know every property in the object is needed in the component (or if you're doing a higher order component, but we'll get to the later.)
 
 ```javascript
-import React from 'react';
-import { string } from 'prop-types';
+import React from "react";
+import { string } from "prop-types";
 
 const ShowCard = props => (
   <div className="show-card">
-    <img alt={`${props.title} Show Poster`} src={`/public/img/posters/${props.poster}`} />
+    <img
+      alt={`${props.title} Show Poster`}
+      src={`/public/img/posters/${props.poster}`}
+    />
     <div>
       <h3>{props.title}</h3>
       <h4>({props.year})</h4>
@@ -172,8 +181,6 @@ ShowCard.propTypes = {
 export default ShowCard;
 ```
 
-We've now made our code a bit cleaner since we don't have to props.show... ad nauseam. From here we're going to move beyond prop types: we're going to incorporate Flow types. Prop types were deprecated as being part of the main package as of 15.5 since it's extra weight if you don't need them. If you're using types (like Flow or TypeScript) then they're redundant. Let's keep going.
+We've now made our code a bit cleaner since we don't have to props.show... ad nauseam.
 
 [map]: https://www.discovermeteor.com/blog/understanding-javascript-map/
-[flow]: https://flowtype.org
-[ts]: https://www.typescriptlang.org

@@ -2,7 +2,7 @@
 title: "Universal Rendering"
 ---
 
-Universal rendering, or the artist formerly known as isomorphic rendering. The idea here is that you server-side prerender your code so that when it gets down to the client, your browser can __instantly__ show the markup while your app bootstraps in the background. It makes everything feel very instantaneous.
+Universal rendering, or the artist formerly known as isomorphic rendering. The idea here is that you server-side prerender your code so that when it gets down to the client, your browser can **instantly** show the markup while your app bootstraps in the background. It makes everything feel very instantaneous.
 
 With just vanilla React, universal rendering is a cinch. Check out the [whole node file from another one of my workshops][es6-react]. It does server-side rendering in just a few lines.
 
@@ -15,25 +15,23 @@ We're pretty close to good as is. The only thing we need to do is move BrowserRo
 That should be enough. ClientApp should look like:
 
 ```javascript
-// @flow
-
-import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import React from "react";
+import { render } from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
 const renderApp = () => {
   render(
     <BrowserRouter>
       <App />
     </BrowserRouter>,
-    document.getElementById('app')
+    document.getElementById("app")
   );
 };
 renderApp();
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  module.hot.accept("./App", () => {
     renderApp();
   });
 }
@@ -50,7 +48,7 @@ Okay, now we need to go make it so that index.html can be used as a template. Th
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>svideo</title>
+  <title>The Big Show</title>
   <link rel="stylesheet" href="/public/style.css" />
 </head>
 <body>
@@ -68,13 +66,16 @@ Go to .babelrc and add env, for server. For now it'll be the same as test (since
 {
   "presets": [
     "react",
-    ["env", {
-      "targets": {
-        "browsers": "last 2 versions"
-      },
-      "loose": true,
-      "modules": false
-    }]
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": "last 2 versions"
+        },
+        "loose": true,
+        "modules": false
+      }
+    ]
   ],
   "plugins": [
     "react-hot-loader/babel",
@@ -92,33 +93,37 @@ Go to .babelrc and add env, for server. For now it'll be the same as test (since
 }
 ```
 
-Okay, let's create a server now! Create a server.js *outside* the js folder and put it just in the root directory of your project. Put:
+Okay, let's create a server now! Create a server.js _outside_ the js folder and put it just in the root directory of your project. Put:
 
 ```javascript
 /* eslint no-console:0 */
-require('babel-register');
+require("babel-register");
 
-const express = require('express');
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const ReactRouter = require('react-router-dom');
-const _ = require('lodash');
-const fs = require('fs');
-const App = require('./js/App').default;
+const express = require("express");
+const React = require("react");
+const ReactDOMServer = require("react-dom/server");
+const ReactRouter = require("react-router-dom");
+const _ = require("lodash");
+const fs = require("fs");
+const App = require("./src/App").default;
 
 const StaticRouter = ReactRouter.StaticRouter;
 const port = 8080;
-const baseTemplate = fs.readFileSync('./index.html');
+const baseTemplate = fs.readFileSync("./index.html");
 const template = _.template(baseTemplate);
 
 const server = express();
 
-server.use('/public', express.static('./public'));
+server.use("/public", express.static("./public"));
 
 server.use((req, res) => {
   const context = {};
   const body = ReactDOMServer.renderToString(
-    React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App))
+    React.createElement(
+      StaticRouter,
+      { location: req.url, context },
+      React.createElement(App)
+    )
   );
 
   if (context.url) {
@@ -145,18 +150,17 @@ Congrats! You've done server-side rendering! Now, we messed up hot module reload
 
 ```javascript
 // replace the entry:
-entry: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './js/ClientApp.jsx'],
+entry: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './js/ClientApp.js'],
 ```
 
 We need webpack to look for the webpack middleware instead of the dev server. After doing this, the dev server will not work and you can only use the server version. So let's go make the server work as well.
 
 ```javascript
 // more includes
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpack = require('webpack');
-const config = require('./webpack.config');
-
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackHotMiddleware = require("webpack-hot-middleware");
+const webpack = require("webpack");
+const config = require("./webpack.config");
 
 // after the creation of server, before server.use('public' …)
 const compiler = webpack(config);

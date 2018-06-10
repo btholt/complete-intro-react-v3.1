@@ -23,8 +23,8 @@ So let's start our first React code!
 </head>
 <body>
     <div id="app"></div>
-    <script src="node_modules/react/dist/react.js"></script>
-    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/react@16.4.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.4.0/umd/react-dom.development.js"></script>
     <script>
         var MyFirstComponent = function() {
           return React.createElement('div', null,
@@ -54,21 +54,21 @@ Before we start here, let's delete that bottom script tag in index.html and add 
 ```javascript
 /* global React ReactDOM */
 
-var MyTitle = function () {
-  return (
-    React.createElement('div', null,
-      React.createElement('h1', null, 'Check out this component!')
-    )
+var MyTitle = function() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement("h1", null, "Check out this component!")
   );
 };
 
-var MyFirstComponent = function () {
-  return (
-    React.createElement('div', null,
-      React.createElement(MyTitle, null),
-      React.createElement(MyTitle, null),
-      React.createElement(MyTitle, null)
-    )
+var MyFirstComponent = function() {
+  return React.createElement(
+    "div",
+    null,
+    React.createElement(MyTitle, null),
+    React.createElement(MyTitle, null),
+    React.createElement(MyTitle, null)
   );
 };
 
@@ -88,7 +88,6 @@ We can use this element the same way we use any other HTML-native tag. This allo
 
 To sum-up, we're making functions that create the component and then we're using `createElement` to create an _instance_ of that class, resulting in an element that can be used in others components.
 
-
 ## Factories
 
 This is a bit verbose to write `React.createElement` so many damn times. Let's use a shortcut.
@@ -98,12 +97,12 @@ This is a bit verbose to write `React.createElement` so many damn times. Let's u
 var ce = React.createElement;
 
 //replace MyFirstComponent's body
-return (
-  ce('div', null,
-    ce(MyTitleFact, null),
-    ce(MyTitleFact, null),
-    ce(MyTitleFact, null)
-  )
+return ce(
+  "div",
+  null,
+  ce(MyTitleFact, null),
+  ce(MyTitleFact, null),
+  ce(MyTitleFact, null)
 );
 ```
 
@@ -120,42 +119,33 @@ Props are received as a parameter to stateless functional components and are on 
 
 var ce = React.createElement;
 
-var MyTitle = function (props) {
-  return (
-    ce('div', null,
-      ce('h1', null, props.title)
-    )
+var MyTitle = function(props) {
+  return ce("div", null, ce("h1", null, props.title));
+};
+
+var MyFirstComponent = function() {
+  return ce(
+    "div",
+    null,
+    ce(MyTitle, { title: "House of Cards" }),
+    ce(MyTitle, { title: "Orange is the New Black" }),
+    ce(MyTitle, { title: "Stranger Things" })
   );
 };
 
-var MyFirstComponent = function () {
-  return (
-    ce('div', null,
-      ce(MyTitle, {title: 'House of Cards'}),
-      ce(MyTitle, {title: 'Orange is the New Black'}),
-      ce(MyTitle, {title: 'Stranger Things'})
-    )
-  );
-};
-
-ReactDOM.render(
-  ce(MyFirstComponent),
-  document.getElementById("app")
-);
-
+ReactDOM.render(ce(MyFirstComponent), document.getElementById("app"));
 ```
 
 Now we can change the contents of the title. But since we can pass in lots of props, we can widely differing elements of the same class based on what props are passed into the element. Let's take it a step further (and show you how to do inline styles and attributes with React.)
 
 ```javascript
 // change MyTitle's inside h1
-ce('h1', {style: {color: props.color}}, props.title)
+ce("h1", { style: { color: props.color } }, props.title);
 
 // change MyFirstComponent inside div
-ce(MyTitle, {color: 'rebeccapurple', title: 'House of Cards'}),
-ce(MyTitle, {color: 'peru', title: 'Orange is the New Black'}),
-ce(MyTitle, {color: 'burlywood', title: 'Stranger Things'})
+ce(MyTitle, { color: "rebeccapurple", title: "House of Cards" }),
+  ce(MyTitle, { color: "peru", title: "Orange is the New Black" }),
+  ce(MyTitle, { color: "burlywood", title: "Stranger Things" });
 ```
 
 Let's stop there and switch our attention a bit to tooling. So far we've been writing React with no compile step which is pretty cool and not something enough do in the course of React. Certain things will just make sense because you know what it complies to. In any case, onward!
-

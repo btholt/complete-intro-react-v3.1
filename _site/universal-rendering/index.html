@@ -51,25 +51,23 @@
 <p>First thing you typically need to do when getting ready to implements server-side rendering (SSR) is split browser concerns and app concerns. The key is anything in the <em>initial render path</em> cannot reference anything in the DOM or window. We can't make AJAX calls, reference the window, or anything else browser specific. All the browser specific code has to live in ClientApp.jsx (which won't get included in Node,) componentDidMount (which doesn't get called,) or behind some sort of <code>if (window)</code> conditional.</p>
 <p>We're pretty close to good as is. The only thing we need to do is move BrowserRouter from App to ClientApp. In Node we'll use a ServerRouter so we need the Browser one to only to get included client-side. So remove BrowserRouter from App altogether and wrap the <code>&lt;App /&gt;</code> in the render call in ClientApp with <code>&lt;BrowserRouter&gt;&lt;/BrowserRouter&gt;</code> (after importing it.)</p>
 <p>That should be enough. ClientApp should look like:</p>
-<pre><code class="language-javascript"><span class="hljs-comment">// @flow</span>
-
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { BrowserRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router-dom'</span>;
-<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">'./App'</span>;
+<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> { render } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
+<span class="hljs-keyword">import</span> { BrowserRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">"react-router-dom"</span>;
+<span class="hljs-keyword">import</span> App <span class="hljs-keyword">from</span> <span class="hljs-string">"./App"</span>;
 
 <span class="hljs-keyword">const</span> renderApp = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   render(
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">BrowserRouter</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">BrowserRouter</span>&gt;</span></span>,
-    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'app'</span>)
+    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"app"</span>)
   );
 };
 renderApp();
 
 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">module</span>.hot) {
-  <span class="hljs-built_in">module</span>.hot.accept(<span class="hljs-string">'./App'</span>, () =&gt; {
+  <span class="hljs-built_in">module</span>.hot.accept(<span class="hljs-string">"./App"</span>, () =&gt; {
     renderApp();
   });
 }
@@ -81,7 +79,7 @@ renderApp();
 <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>svideo<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>The Big Show<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/public/style.css"</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
@@ -95,13 +93,16 @@ renderApp();
 <pre><code class="language-json">{
   <span class="hljs-attr">"presets"</span>: [
     <span class="hljs-string">"react"</span>,
-    [<span class="hljs-string">"env"</span>, {
-      <span class="hljs-attr">"targets"</span>: {
-        <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
-      },
-      <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
-      <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
-    }]
+    [
+      <span class="hljs-string">"env"</span>,
+      {
+        <span class="hljs-attr">"targets"</span>: {
+          <span class="hljs-attr">"browsers"</span>: <span class="hljs-string">"last 2 versions"</span>
+        },
+        <span class="hljs-attr">"loose"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"modules"</span>: <span class="hljs-literal">false</span>
+      }
+    ]
   ],
   <span class="hljs-attr">"plugins"</span>: [
     <span class="hljs-string">"react-hot-loader/babel"</span>,
@@ -120,29 +121,33 @@ renderApp();
 </code></pre>
 <p>Okay, let's create a server now! Create a server.js <em>outside</em> the js folder and put it just in the root directory of your project. Put:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">/* eslint no-console:0 */</span>
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'babel-register'</span>);
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"babel-register"</span>);
 
-<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
-<span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
-<span class="hljs-keyword">const</span> ReactDOMServer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-dom/server'</span>);
-<span class="hljs-keyword">const</span> ReactRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-router-dom'</span>);
-<span class="hljs-keyword">const</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>);
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
-<span class="hljs-keyword">const</span> App = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./js/App'</span>).default;
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">"express"</span>);
+<span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react"</span>);
+<span class="hljs-keyword">const</span> ReactDOMServer = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react-dom/server"</span>);
+<span class="hljs-keyword">const</span> ReactRouter = <span class="hljs-built_in">require</span>(<span class="hljs-string">"react-router-dom"</span>);
+<span class="hljs-keyword">const</span> _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">"lodash"</span>);
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
+<span class="hljs-keyword">const</span> App = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./src/App"</span>).default;
 
 <span class="hljs-keyword">const</span> StaticRouter = ReactRouter.StaticRouter;
 <span class="hljs-keyword">const</span> port = <span class="hljs-number">8080</span>;
-<span class="hljs-keyword">const</span> baseTemplate = fs.readFileSync(<span class="hljs-string">'./index.html'</span>);
+<span class="hljs-keyword">const</span> baseTemplate = fs.readFileSync(<span class="hljs-string">"./index.html"</span>);
 <span class="hljs-keyword">const</span> template = _.template(baseTemplate);
 
 <span class="hljs-keyword">const</span> server = express();
 
-server.use(<span class="hljs-string">'/public'</span>, express.static(<span class="hljs-string">'./public'</span>));
+server.use(<span class="hljs-string">"/public"</span>, express.static(<span class="hljs-string">"./public"</span>));
 
 server.use(<span class="hljs-function">(<span class="hljs-params">req, res</span>) =&gt;</span> {
   <span class="hljs-keyword">const</span> context = {};
   <span class="hljs-keyword">const</span> body = ReactDOMServer.renderToString(
-    React.createElement(StaticRouter, { <span class="hljs-attr">location</span>: req.url, context }, React.createElement(App))
+    React.createElement(
+      StaticRouter,
+      { <span class="hljs-attr">location</span>: req.url, context },
+      React.createElement(App)
+    )
   );
 
   <span class="hljs-keyword">if</span> (context.url) {
@@ -162,15 +167,14 @@ server.listen(port);
 <p>Okay. Let's run the app. Run in your CLI <code>npm run build</code> (to build your bundle) then run <code>NODE_ENV=server node server.js</code>. Make sure you re-run build because the webpack-dev-server doesn't necessarily re-write out the bundle.js. Okay, so now try going to localhost:5050. While you won't necessarily notice it loading quicker since you were developing locally, check out view source. You should see it ships with a bunch of markup which means your page will load <em>much</em> quicker on a slower connection since markup will start rendering before the JS is done downloading.</p>
 <p>Congrats! You've done server-side rendering! Now, we messed up hot module reload. It'd be great if we didn't have to choose between SSR and HMR. And we don't! Let's go include that too. First go to your webpack config and let's change just one thing:</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// replace the entry:</span>
-entry: [<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>, <span class="hljs-string">'./js/ClientApp.jsx'</span>],
+entry: [<span class="hljs-string">'webpack-hot-middleware/client?path=/__webpack_hmr&amp;timeout=20000'</span>, <span class="hljs-string">'./js/ClientApp.js'</span>],
 </code></pre>
 <p>We need webpack to look for the webpack middleware instead of the dev server. After doing this, the dev server will not work and you can only use the server version. So let's go make the server work as well.</p>
 <pre><code class="language-javascript"><span class="hljs-comment">// more includes</span>
-<span class="hljs-keyword">const</span> webpackDevMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack-dev-middleware'</span>);
-<span class="hljs-keyword">const</span> webpackHotMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack-hot-middleware'</span>);
-<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">'webpack'</span>);
-<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./webpack.config'</span>);
-
+<span class="hljs-keyword">const</span> webpackDevMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack-dev-middleware"</span>);
+<span class="hljs-keyword">const</span> webpackHotMiddleware = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack-hot-middleware"</span>);
+<span class="hljs-keyword">const</span> webpack = <span class="hljs-built_in">require</span>(<span class="hljs-string">"webpack"</span>);
+<span class="hljs-keyword">const</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">"./webpack.config"</span>);
 
 <span class="hljs-comment">// after the creation of server, before server.use('public' …)</span>
 <span class="hljs-keyword">const</span> compiler = webpack(config);
