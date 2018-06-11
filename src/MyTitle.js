@@ -19,18 +19,29 @@ class MyTitle extends React.Component {
     });
   }
   render() {
-    return React.createElement(
-      "div",
-      {},
-      React.createElement(
-        "h1",
-        {
-          onClick: this.toggleFontWeight,
-          style: { color: this.props.color, fontWeight: this.state.fontWeight }
-        },
-        this.props.title
-      )
+    return (
+      <div>
+        <h1
+          onClick={this.toggleFontWeight}
+          style={{ color: this.props.color, fontWeight: this.state.fontWeight }}
+        >
+          {this.props.title}
+        </h1>
+      </div>
     );
+
+    // return React.createElement(
+    //   "div",
+    //   {},
+    //   React.createElement(
+    //     "h1",
+    //     {
+    //       onClick: this.toggleFontWeight,
+    //       style: { color: this.props.color, fontWeight: this.state.fontWeight }
+    //     },
+    //     this.props.title
+    //   )
+    // );
   }
 }
 

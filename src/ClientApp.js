@@ -1,26 +1,23 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import MyTitle from "./MyTitle";
+import { render } from "react-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Landing from "./Landing";
+import Search from "./Search";
 
-const MyFirstComponent = function() {
-  return React.createElement("div", {}, [
-    React.createElement(MyTitle, { color: "peru", title: "Legion" }),
-    React.createElement(MyTitle, {
-      color: "mediumseagreen",
-      title: "Westworld"
-    }),
-    React.createElement(MyTitle, {
-      color: "dodgerblue",
-      title: "Game of Thrones"
-    }),
-    React.createElement(MyTitle, {
-      color: "papayawhip",
-      title: "Sons of Anarchy"
-    })
-  ]);
+const FourOhFour = () => <h1>404</h1>;
+
+const App = function() {
+  return (
+    <BrowserRouter>
+      <div className="app">
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route path="/search" component={Search} />
+          <Route component={FourOhFour} />
+        </Switch>
+      </div>
+    </BrowserRouter>
+  );
 };
 
-ReactDOM.render(
-  React.createElement(MyFirstComponent, {}, null),
-  document.getElementById("app")
-);
+render(<App />, document.getElementById("app"));
