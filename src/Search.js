@@ -15,7 +15,7 @@ class Search extends React.Component {
     return (
       <div className="search">
         <header>
-          <h1>The Big Show</h1>
+          <h1>The Big Show?</h1>
           <input
             onChange={this.handleSearchTermChange}
             value={this.state.searchTerm}
