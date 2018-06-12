@@ -10,7 +10,8 @@
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --hot",
     "test": "jest",
-    "test:update": "jest -u"
+    "test:update": "jest -u",
+    "api": "node ratingsApi.js"
   },
   "jest": {
     "snapshotSerializers": [
@@ -50,7 +51,10 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.4",
     "emotion": "^9.2.3",
+    "express": "^4.16.3",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
