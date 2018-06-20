@@ -235,7 +235,7 @@ ce(MyTitle, { <span class="hljs-attr">color</span>: <span class="hljs-string">"r
 <h2>npm scripts</h2>
 <p>So it can be painful to try to remember the various CLI commands to run on your project, especially with Prettier because it doesn't have a config object yet (they're making one.) npm scripts to the rescue! You can put CLI commands into it and then run the name of the tag and it'll run that script. Let's go see how that works. Put the following into your package.json.</p>
 <pre><code class="language-json">"scripts": {
-	"format": "prettier --list-different --single-quote --print-width=120 \"js/**/*.{js,jsx}\"",
+	"format": "prettier --write --list-different --single-quote --print-width=120 \"js/**/*.{js,jsx}\"",
 },
 </code></pre>
 <p>Now you can run <code>npm run format</code> and it will run that command. This means we don't have to remember that mess of a command and just have to remember format. Nice, right? We'll be leaning on this a lot during this course.</p>
